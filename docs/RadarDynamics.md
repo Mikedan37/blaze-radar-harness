@@ -87,7 +87,15 @@ x(t) = distance from resolved system state
 
 The goal is fast convergence of `x(t) → 0` with **minimal heat loss** (wasted agent-minutes on redundant work).
 
-### 3.2 Bad oscillation
+### 3.2 Two loops (only one is Radar)
+
+**Loop 1 — State feedback (Radar):** agents act → information captured on board → other agents observe → trajectories adjust. Goal: reduce oscillation through explored space.
+
+**Loop 2 — Integration (not Radar):** multiple partial fixes on different branches → which compose into the next stable state? Goal: composition, not observation. Humans do this in review/merge today. Radar metadata (intent, notes, failed paths) makes it easier; **no tool in this stack closes this loop yet.**
+
+See the [harness README control model](https://github.com/Mikedan37/blaze-radar-harness#control-system-model) for equations and measured proxies.
+
+### 3.3 Bad oscillation
 
 Without state feedback, parallel agents exhibit under-damped behavior:
 
@@ -105,7 +113,7 @@ system crosses the same states repeatedly
 
 This is **oscillation**: the system traverses the same region of state space multiple times. It looks like progress (commits, stdout, file edits) but dissipates energy as heat — duplicate investigations, abandoned work, merge repair, conflicting patches.
 
-### 3.3 What Radar adds
+### 3.4 What Radar adds
 
 Radar injects **state feedback** into the loop:
 
@@ -115,7 +123,7 @@ Radar injects **state feedback** into the loop:
 
 Each `blaze radar sync` is a sample of the shared state. Each `blaze radar note` writes history into the phase plane. Collision warnings flag potential trajectory overlap. The agent's LLM is the controller — Radar is the sensor network.
 
-### 3.4 Damping regimes (analogy, not measured ζ)
+### 3.5 Damping regimes (analogy, not measured ζ)
 
 Map classical damping to multi-agent behavior **as an analogy**. We do not claim to measure a damping ratio ζ — trials are the empirical test. The framing is *inspired by* damping dynamics, not a proof that Radar achieves critical damping.
 
