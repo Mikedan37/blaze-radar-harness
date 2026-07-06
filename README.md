@@ -50,8 +50,10 @@ This harness is not a leaderboard. It is an **experimental framework for measuri
 | **Damping** | Feedback converting oscillation into progress | prior context utilization, compounding events, continuations |
 
 ```
-coordination_score = (useful_outputs + leverage − duplicate_work − merge_cost) / agent_minutes
+convergence_score = (useful_outputs + leverage − duplicate_work − merge_cost) / agent_minutes
 ```
+
+Productive movement toward resolved state per unit energy — not "coordination" as task assignment.
 
 **Good damping:** same energy, less heat loss — throughput held, repeated trajectories down.  
 **Bad damping (over-damped):** fewer commits, zero duplicates — you invented fear.

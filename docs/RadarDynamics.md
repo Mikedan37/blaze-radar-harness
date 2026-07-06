@@ -21,18 +21,18 @@ more agents → need more coordination
 That assumption produces a familiar stack:
 
 ```
-planner
-  ↓
-task assignment
-  ↓
-ownership
-  ↓
-locks
-  ↓
-approval
+planner → assignment → ownership → locks → approval
 ```
 
-This is middle management recreated for LLMs. It optimizes for **conflict avoidance** and **accountability theater**, not for **useful progress**. Agents become cautious. Throughput drops. Everyone attends standups. Humanity already maxed that skill tree.
+Linear, Jira, standups, and file locks all solve **coordination** — who does what, who approved what. The failure mode Radar targets is **state convergence**: independent workers repeatedly traversing the same explored space because they lack shared history.
+
+| Approach | What it solves | What it doesn't |
+|----------|----------------|-----------------|
+| Issue trackers | Planned work visibility | Live agent context at decision time |
+| Agent-to-agent chat | Point-to-point messages | Durable, repo-scoped state history |
+| File assignment | Write conflict avoidance | Informed exploration vs blind retry |
+
+Radar is not a replacement for any of these. It is **observability for parallel intelligence** — a phase plane agents read before acting.
 
 Radar rejects this model entirely. The docs state it plainly:
 
@@ -115,17 +115,17 @@ Radar injects **state feedback** into the loop:
 
 Each `blaze radar sync` is a sample of the shared state. Each `blaze radar note` writes history into the phase plane. Collision warnings flag potential trajectory overlap. The agent's LLM is the controller — Radar is the sensor network.
 
-### 3.4 Damping regimes
+### 3.4 Damping regimes (analogy, not measured ζ)
 
-Map classical damping to multi-agent behavior:
+Map classical damping to multi-agent behavior **as an analogy**. We do not claim to measure a damping ratio ζ — trials are the empirical test. The framing is *inspired by* damping dynamics, not a proof that Radar achieves critical damping.
 
 | Regime | Multi-agent behavior | Radar stance |
 |--------|---------------------|--------------|
-| **Under-damped** (ζ < 1) | Thrashing: duplicate work, merge fights, rediscovery | What Radar targets |
-| **Critical** (ζ ≈ 1) | Fast convergence, minimal overshoot, high throughput | Design goal |
-| **Over-damped** (ζ > 1) | Slow, cautious, sync-heavy, deferential | What Radar avoids |
+| **Under-damped** (ζ < 1) | Thrashing: duplicate work, merge fights, rediscovery | What feedback should reduce |
+| **Near-critical** (ζ ≈ 1) | Fast convergence, minimal overshoot, high throughput | Design aspiration |
+| **Over-damped** (ζ > 1) | Slow, cautious, sync-heavy, deferential | What to avoid |
 
-**Critical damping** in this context means:
+**Near-critical behavior** in this context would mean:
 
 > Fast convergence to a **stable solution trajectory** — not a territorial split.
 
@@ -237,15 +237,19 @@ No Radar:  100 units effort → 60 useful, 40 repeated
 Radar:     100 units effort → 85 useful, 15 repeated
 ```
 
-Same system energy. Less heat loss. That is critical damping: oscillation reduced without killing motion.
+Same system energy. Less heat loss. That is the **good damping** outcome the harness looks for: oscillation reduced without killing motion. Whether the system sits at ζ ≈ 1 is an empirical question — not a doc claim.
 
-### 6.3 Coordination score (trial scorer)
+### 6.3 Convergence score (trial scorer)
 
-The trial scorer in `lib/score_trial_v2.py` encodes this intuition:
+The problem is **state convergence**, not coordination as management. The scorer therefore exposes a `convergence_score`, not a `coordination_score`:
 
 ```
-coordination_score = (useful_outputs + leverage − duplicate_work − merge_cost) / agent_minutes
+convergence_score = (useful_outputs + leverage − duplicate_work − merge_cost) / agent_minutes
 ```
+
+Interpretation: productive movement toward resolved state (`x(t) → 0`) per unit energy spent. Higher is better. This is not a leaderboard point — it is one channel on the oscilloscope.
+
+Legacy JSON from older runs may still label this `coordination_score`; treat it as the same metric.
 
 Key signals:
 
@@ -416,6 +420,8 @@ Radar operates at a different layer: **between agents**, not **within one agent'
 
 **Right:** "Shared phase plane for parallel coding agents. Tells them where energy was spent, what's known, what failed — so they compound instead of collide."
 
+**Systems claim:** Parallel intelligence does not scale without shared state. Radar is one sensor implementation; the harness is the oscilloscope that checks whether the universe agrees.
+
 **One line:** Proximity in workspace ≠ collision. What matters is velocity through explored space.
 
 ---
@@ -431,4 +437,5 @@ Radar operates at a different layer: **between agents**, not **within one agent'
 | **Compounding** | Agent B's work builds on Agent A's recorded findings |
 | **Swarm** | Multiple agents on same area with aligned, complementary vectors |
 | **Over-damping** | Excessive caution — low oscillation, low throughput |
-| **Critical damping** | Fast convergence to useful trajectory without killing system energy |
+| **Near-critical (analogy)** | Fast convergence to useful trajectory without killing system energy — aspirational, empirically tested |
+| **Convergence score** | `(useful + leverage − duplicate − merge_cost) / agent_minutes` — progress toward resolution per energy |

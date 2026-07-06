@@ -560,7 +560,7 @@ def legacy_friction_score(
     return round((merged_commits / files_changed) * (1.0 - collision_rate), 3)
 
 
-def coordination_score(
+def convergence_score(
     useful_outputs: float,
     leverage_total: float,
     duplicate_work: float,
@@ -841,7 +841,7 @@ def score_arm_v2(
     merge_cost = merge_conflicts * 2.0 + overlap_files * 0.5
     useful_outputs = float(merged) + len(files_scored) * 0.25
 
-    coord = coordination_score(
+    conv = convergence_score(
         useful_outputs, leverage_total, dup_weight, merge_cost, minutes.get("total")
     )
 
@@ -887,7 +887,15 @@ def score_arm_v2(
         "legacy_efficiency": legacy_friction_score(
             merged, len(files_scored), collision_rate
         ),
-        "coordination_score": coord,
+        "convergence_score": conv,
+        "convergence_score_components": {
+            "useful_outputs": useful_outputs,
+            "state_feedback_leverage": leverage_total,
+            "duplicate_work": dup_weight,
+            "merge_cost": merge_cost,
+        },
+        # Deprecated aliases (pre-v2 rename)
+        "coordination_score": conv,
         "coordination_score_components": {
             "useful_outputs": useful_outputs,
             "coordination_leverage": leverage_total,
@@ -914,13 +922,13 @@ def compare_arms(no_radar: dict[str, Any], radar: dict[str, Any]) -> dict[str, A
             return None
         return None
 
-    nr_score = no_radar.get("coordination_score")
-    rd_score = radar.get("coordination_score")
-    coord_lift = None
+    nr_score = no_radar.get("convergence_score") or no_radar.get("coordination_score")
+    rd_score = radar.get("convergence_score") or radar.get("coordination_score")
+    conv_lift = None
     if isinstance(nr_score, (int, float)) and isinstance(rd_score, (int, float)) and nr_score > 0:
-        coord_lift = round((rd_score - nr_score) / nr_score, 3)
+        conv_lift = round((rd_score - nr_score) / nr_score, 3)
     elif isinstance(nr_score, dict) or isinstance(rd_score, dict):
-        coord_lift = unknown("coordination_score incomplete for one or both arms")
+        conv_lift = unknown("convergence_score incomplete for one or both arms")
 
     nr_legacy = no_radar.get("legacy_efficiency", 0)
     rd_legacy = radar.get("legacy_efficiency", 0)
@@ -929,7 +937,8 @@ def compare_arms(no_radar: dict[str, Any], radar: dict[str, Any]) -> dict[str, A
         legacy_lift = round((rd_legacy - nr_legacy) / nr_legacy, 3)
 
     return {
-        "coordination_score_lift_pct": coord_lift,
+        "convergence_score_lift_pct": conv_lift,
+        "coordination_score_lift_pct": conv_lift,
         "legacy_efficiency_lift_pct": legacy_lift,
         "waste_rate_delta": _delta(
             no_radar.get("cognitive_economics", {}).get("waste_rate"),
@@ -970,7 +979,7 @@ def _delta(a: Any, b: Any) -> float | None:
 
 
 def score_line(arm: dict[str, Any]) -> str:
-    cs = arm.get("coordination_score")
+    cs = arm.get("convergence_score") or arm.get("coordination_score")
     if isinstance(cs, dict):
         return f"UNKNOWN ({cs.get('reason')})"
     return str(cs)
@@ -995,7 +1004,7 @@ def render_report(report: dict[str, Any]) -> str:
     nr = report["no_radar"]
     rd = report["radar"]
 
-    coord_lift = cmp_.get("coordination_score_lift_pct")
+    conv_lift = cmp_.get("convergence_score_lift_pct") or cmp_.get("coordination_score_lift_pct")
     legacy_lift = cmp_.get("legacy_efficiency_lift_pct")
 
     def fmt_lift(v: Any) -> str:
@@ -1087,7 +1096,7 @@ def render_report(report: dict[str, Any]) -> str:
             "",
             "## Legacy scores (ignore lift % on short runs)",
             "",
-            f"- Coordination score lift: {fmt_lift(coord_lift)}",
+            f"- Convergence score lift: {fmt_lift(conv_lift)}",
             f"- Legacy efficiency lift: {fmt_lift(legacy_lift)}",
             "",
         ]
@@ -1143,7 +1152,7 @@ def render_report(report: dict[str, Any]) -> str:
                 "### Caution",
                 "",
                 f"Radar waste rate is **higher** by {waste_delta * 100:.1f} percentage points "
-                "in this trial — coordination score lift may reflect leverage heuristics, "
+                "in this trial — convergence score lift may reflect leverage heuristics, "
                 "not reduced waste. Treat short/contaminated runs as scorer validation only.",
                 "",
             ]
@@ -1213,8 +1222,11 @@ def main() -> int:
                 "radar_lift_pct": compare_arms(no_radar, radar).get(
                     "legacy_efficiency_lift_pct"
                 ),
+                "convergence_score_lift_pct": compare_arms(no_radar, radar).get(
+                    "convergence_score_lift_pct"
+                ),
                 "coordination_score_lift_pct": compare_arms(no_radar, radar).get(
-                    "coordination_score_lift_pct"
+                    "convergence_score_lift_pct"
                 ),
             },
         },
