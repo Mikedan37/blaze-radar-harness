@@ -3,11 +3,11 @@
 #
 # Usage:
 #   score-trial.sh --trial trial-002
-#   score-trial.sh --trial trial-002 --out ~/radar-benchmarks/trial-002-score.json
-#   score-trial.sh --trial trial-002 --report ~/radar-benchmarks/trial-002/benchmark-report.md
+#   score-trial.sh --trial trial-002 --out ~/radar-harness/trial-002-score.json
+#   score-trial.sh --trial trial-002 --report ~/radar-harness/trial-002/trial-report.md
 #
 # Reads:
-#   ~/radar-benchmarks/<trial>-{radar,no-radar}/
+#   ~/radar-harness/<trial>-{radar,no-radar}/
 #   ~/radar-trials/<trial>-*/run-logs/
 set -euo pipefail
 
@@ -22,10 +22,10 @@ usage() {
   echo "  --trial ID           e.g. trial-002"
   echo "  --radar PATH         Radar arm benchmark dir"
   echo "  --no-radar PATH      No-radar arm benchmark dir"
-  echo "  --bench-root PATH    Default: ~/radar-benchmarks"
+  echo "  --bench-root PATH    Default: ~/radar-harness"
   echo "  --trials-root PATH   Default: ~/radar-trials"
   echo "  --out PATH           Write score JSON"
-  echo "  --report PATH        Write benchmark-report.md"
+  echo "  --report PATH        Write trial-report.md"
   exit "${1:-0}"
 }
 

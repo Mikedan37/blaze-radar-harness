@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Harness-only trial runner for Radar benchmarks. Spawns Claude Code agents; does not score.
+# Harness-only trial runner for Radar harness trials. Spawns Claude Code agents; does not score.
 #
 # Usage:
 #   run-trial.sh --mode radar --trial trial-002-radar --repo ~/SeekerWebsite
@@ -61,7 +61,7 @@ usage() {
   echo "  --trial ID                     e.g. trial-002-radar or trial-002 (with --mode both)"
   echo "  --repo PATH                    Git repo (default: ~/SeekerWebsite)"
   echo "  --parent PATH                  Worktree parent (default: ~/radar-trials)"
-  echo "  --out PATH                     Collector output root (default: ~/radar-benchmarks)"
+  echo "  --out PATH                     Collector output root (default: ~/radar-harness)"
   echo "  --prompt-pack NAME             Frozen prompts dir (seeker-overlap-v1 | seeker-swarm-v1)"
   echo "  --agents N                     Parallel agents (default: 3 role-split, 8 for swarm)"
   echo "  --base-sha SHA                 Pin base commit (default: Trial 1 SHA)"

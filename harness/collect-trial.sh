@@ -4,7 +4,7 @@
 # Usage:
 #   collect-trial.sh \
 #     --trial trial-001 \
-#     --out ~/radar-benchmarks \
+#     --out ~/radar-harness \
 #     --repo ~/SeekerWebsite \
 #     --group radar \
 #     --agent feature:radar-feature \

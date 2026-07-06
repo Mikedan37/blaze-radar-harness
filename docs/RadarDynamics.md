@@ -6,7 +6,7 @@
 
 This document explains the control-theory framing behind Blaze Radar: what problem it solves, what it deliberately does *not* solve, how to evaluate whether it works, and where the hard problems move next.
 
-For operational setup, see [blaze-radar](https://github.com/Mikedan37/blaze-radar). For trial protocol, see [protocol/trial-1-protocol.md](../protocol/trial-1-protocol.md).
+For operational setup, see [blaze-radar](https://github.com/Mikedan37/blaze-radar). For the measurement harness, see [blaze-radar-harness](https://github.com/Mikedan37/blaze-radar-harness). Trial protocol: [protocol/trial-1-protocol.md](../protocol/trial-1-protocol.md).
 
 ---
 
@@ -386,7 +386,8 @@ Radar is one feedback layer. Other parts of ProjectBlaze use similar dynamics la
 
 | System | Control loop | See |
 |--------|-------------|-----|
-| **Radar** | Parallel agent state awareness | [RadarDynamics.md](docs/RadarDynamics.md) |
+| **Radar** | Parallel agent state awareness | [blaze-radar](https://github.com/Mikedan37/blaze-radar) |
+| **Radar Harness** | Oscillation / energy / damping measurement | [blaze-radar-harness](https://github.com/Mikedan37/blaze-radar-harness) |
 | **Risk Engine** | ARS → behavioral safety modes | ProjectBlaze (private host) |
 | **Failure Memory** | Prior failures → plan constraints | ProjectBlaze (private host) |
 | **Execution Guard** | Per-workspace serialization | AgentDaemon `WorkspaceLock` |

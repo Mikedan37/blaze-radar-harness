@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Scorer v2 — Radar benchmark evaluation from frozen trial artifacts only."""
+"""Scorer v2 — Radar harness evaluation from frozen trial artifacts only."""
 from __future__ import annotations
 
 import argparse
@@ -1159,14 +1159,14 @@ def render_report(report: dict[str, Any]) -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Radar benchmark scorer v2")
+    parser = argparse.ArgumentParser(description="Radar harness scorer v2")
     parser.add_argument("--trial", help="Trial base id e.g. trial-002")
-    parser.add_argument("--radar", type=Path, help="Radar benchmark dir")
+    parser.add_argument("--radar", type=Path, help="Radar harness dir")
     parser.add_argument("--no-radar", type=Path, help="No-radar benchmark dir")
     parser.add_argument("--bench-root", type=Path, default=Path.home() / "radar-benchmarks")
     parser.add_argument("--trials-root", type=Path, default=Path.home() / "radar-trials")
     parser.add_argument("--out", type=Path, help="Write score JSON")
-    parser.add_argument("--report", type=Path, help="Write benchmark-report.md")
+    parser.add_argument("--report", type=Path, help="Write trial-report.md")
     args = parser.parse_args()
 
     if args.trial:
