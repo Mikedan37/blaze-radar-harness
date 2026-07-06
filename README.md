@@ -8,7 +8,38 @@
 
 ---
 
-## What we saw (Trial 005)
+## Hypothesis
+
+**If agents can read a shared board** (tasks, notes, what was tried and abandoned), **they will waste less time re-investigating the same problems** while **still shipping at the same rate**.
+
+We do not expect Radar to assign work, block edits, or merge branches. It is a **sensor**: publish state, let agents adjust their own trajectories. Success looks like:
+
+| Good outcome | Bad outcome |
+|--------------|-------------|
+| Same commits, lower waste rate | Fewer commits (agents scared off) |
+| Agents cite board notes and pivot | Agents ignore the board |
+| Duplicate topics drop | Throughput collapses to hit zero duplicates |
+
+---
+
+## Conclusion so far
+
+**We think the hypothesis is holding, with caveats.**
+
+| Verdict | Detail |
+|---------|--------|
+| **Mechanism** | **Supported.** Agents read the board and change course (Trial 004 + qualitative traces in 005). |
+| **Performance** | **Promising, one clean datapoint.** Trial 005 (isolated A/B): same 8/8 commits, waste rate 77.5% → 42.5%, duplicate topics 7 → 5. |
+| **Confidence** | **Early.** One clean trial, ~45 min, one codebase. Batch repeats (006+) needed before we call it proven. |
+| **Not claimed** | Solved coordination, automatic merging, or a fitted "damping ratio." |
+
+**Plain read:** Radar did not slow the swarm down. It cut redundant investigation. That is exactly what we predicted. We are not declaring victory until repeats show the same pattern.
+
+Full trial write-ups: [docs/EMPIRICAL_RESULTS.md](docs/EMPIRICAL_RESULTS.md).
+
+---
+
+## Evidence (Trial 005)
 
 8 agents on the same codebase, 45 minutes, isolated so neither run could peek at the other's git branches.
 
@@ -26,9 +57,7 @@
 
 ![Trial 005: duplicate topics and context reuse](docs/charts/trial-005-dashboard.svg)
 
-**Concrete example:** Agent 06 opened the board, saw upload work was already in progress, and switched tasks instead of redoing the same trace ([details](docs/trial-data/trial-005-interpretation.md)).
-
-One trial is a signal, not proof. More repeats live in [docs/EMPIRICAL_RESULTS.md](docs/EMPIRICAL_RESULTS.md).
+**Mechanism example (why we believe the numbers):** Agent 06 read the board, saw two peers on `UploadPageClient` plus a "do not re-add desktop tile" note, abandoned its duplicate upload path, and pivoted to signup work. Agent 07 deferred upload after seeing agent 05's claim. Discover → read board → pivot, not blind re-trace ([full trace](docs/trial-data/trial-005-interpretation.md)).
 
 ---
 
