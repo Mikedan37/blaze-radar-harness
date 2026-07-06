@@ -1,134 +1,134 @@
-# Control model
+# Control model (optional read)
 
-Full equations and harness mapping for blaze-radar-harness. Operational Radar setup: [blaze-radar](https://github.com/Mikedan37/blaze-radar).
-
----
-
-## 1. State and loops
-
-**State variable** - distance from resolved system state:
-
-```
-x(t) ≥ 0 ,   x → 0  as bug fixed / feature shipped / investigation closed
-```
-
-**Loop 1 - State feedback (Radar + harness):** close the observation path so agents adjust trajectories before re-exploring.
-
-**Loop 2 - Integration (out of scope):** compose partial fixes on different branches into one stable state. Humans do this at merge/review today. Radar metadata helps; no tool here closes this loop.
+This page gives a math-friendly view of what the harness scores. You do not need it to run trials. For setup and results, start with the [README](../README.md) and [EMPIRICAL_RESULTS.md](EMPIRICAL_RESULTS.md).
 
 ---
 
-## 2. Open loop vs feedback
+## Summary in plain language
 
-Without shared state **S(t)**:
-
-```
-agent acts → information I created → I lost at session edge
-         → peer retraces region     → oscillation in state space
-```
-
-With Radar (sensor only - no actuators on edits/merges):
-
-```
-agent acts → sync/note → S(t) updated → peer observes → trajectory adjusts
-```
-
-```mermaid
-flowchart LR
-  A1[agent-01] --> C["codebase"]
-  A2[agent-02] --> C
-  A1 <-->|sync, note| S["board St"]
-  A2 <-->|sync, note| S
-  S -->|observe| A1
-  S -->|observe| A2
-```
+1. **Goal:** Agents should make progress without re-walking the same investigation paths.
+2. **Treatment:** Blaze Radar shared board so agents see each other's tasks and notes.
+3. **Control:** Same agents and prompts, but no board.
+4. **Success pattern:** Similar total effort and commit count, but lower waste rate and fewer duplicate topics on the Radar arm.
+5. **Out of scope:** Automatically merging agent branches. Humans (or a future tool) still decide what composes.
 
 ---
 
-## 3. Dynamics (analogy - not fitted ζ)
+## Two loops (only one is measured here)
 
-Inspired by damping, **not** a claim that we measure damping ratio ζ:
+| Loop | Question | Who closes it today |
+|------|----------|---------------------|
+| **State feedback** | Did agents know what was already tried? | Radar (board) + harness (measures) |
+| **Integration** | Which partial fixes combine into one release? | Human review / merge |
 
-```
-ẋ(t) ≈ −k · progress(t)  +  disturbance(t)  −  heat(t)
-```
-
-| Term | Meaning | Harness proxy |
-|------|---------|---------------|
-| `progress(t)` | Steps reducing x | useful commits, diffs, convergence numerator |
-| `disturbance(t)` | Exploration + merge friction | merge failures, conflicting work |
-| `heat(t)` | Redundant re-exploration | `waste_rate`, duplicate investigations |
-
-**Proximity ≠ collision.** What matters is **velocity through explored space** - same directory + new informed vector is fine; same directory + blind retry is oscillation.
+Radar is sensor-only. It does not actuate merges or block files.
 
 ---
 
-## 4. Energy balance (scored)
+## Feedback path (ASCII)
 
-Total effort (energy input):
+```
+  Agent 1 ----edits----> Codebase + git
+     |                        ^
+     |                        |
+     +--- sync, note ---> Shared board
+     |                        |
+     +--- reads board -------+
+
+  Agent 2 ----edits----> Codebase + git
+     |                        ^
+     +--- sync, note ---> Shared board
+     +--- reads board -------+
+```
+
+Without the board, information stops at each session edge and peers retrace the same region.
+
+---
+
+## Variables (analogy, not fitted physics)
+
+**x(t)** = distance from "done" (bug fixed, feature shipped). We do not measure x directly.
+
+Useful mental model only (not a measured damping ratio):
+
+```
+x_dot ≈ progress - heat + disturbance
+```
+
+| Term | Plain meaning | Scorer proxy |
+|------|---------------|--------------|
+| progress | Work that moves the repo forward | useful commits, diffs |
+| heat | Effort spent re-exploring known ground | waste_rate, duplicate_investigations |
+| disturbance | Parallel exploration, merge friction | merge failures, conflicts |
+
+**Proximity is not collision.** Two agents on the same folder is fine if the second builds on the first's notes instead of repeating the same trace.
+
+---
+
+## Energy balance (what score_trial_v2.py computes)
+
+Total agent effort:
 
 ```
 E = agent_minutes_total
 ```
 
-Partition:
+Split into useful work and waste:
 
 ```
 E = E_useful + Q_heat
-Q_heat ≈ waste_rate · E
+Q_heat ≈ waste_rate * E
 ```
 
-**Good damping hypothesis** (under test):
+**Hypothesis under test:**
 
 ```
-E_radar ≈ E_no_radar
-Q_heat_radar < Q_heat_no_radar
+E_radar ≈ E_no_radar           (same throughput)
+Q_heat_radar < Q_heat_no_radar (less redundant work)
 convergence_score_radar > convergence_score_no_radar
 ```
 
-**Convergence score** (not coordination score):
+**Convergence score:**
 
 ```
-convergence_score = (useful_outputs + leverage − duplicate_work − merge_cost) / E
+convergence_score = (useful_outputs + leverage - duplicate_work - merge_cost) / E
 ```
 
-Interpretation: progress toward resolution **per unit energy**. Higher at similar E ⇒ less heat, more damping.
+Higher score at similar E means more forward progress per agent-minute.
 
-**Bad outcome (over-damped):** E collapses, duplicates → 0 - fear, not physics.
+**Bad outcome:** Waste hits zero because agents stopped working (over-constrained), not because they converged smarter.
 
 ---
 
-## 5. Measured signals
+## Measured signals
 
 | Domain | Question | Scorer field |
 |--------|----------|--------------|
-| Oscillation | Retracing explored state? | `duplicate_investigations`, `cognitive_duplication_rate` |
-| Energy | How much effort in? | `agent_minutes.total`, `output_per_agent_hour` |
-| Heat | How much redundant? | `waste_rate`, `wasted_breakdown` |
-| Damping | Did feedback change paths? | `prior_context_utilization`, `compounding_events` |
-| Convergence | Progress per energy | `convergence_score` |
+| Oscillation | Retracing explored state? | duplicate_investigations, cognitive_duplication_rate |
+| Energy | How much effort in? | agent_minutes.total, output_per_agent_hour |
+| Heat | How much redundant? | waste_rate, wasted_breakdown |
+| Damping | Did feedback change paths? | prior_context_utilization, compounding_events |
+| Convergence | Progress per energy | convergence_score |
 
-Arm comparison (`comparison` block): `waste_rate_delta`, `duplicate_investigations_delta`, `compounding_events_delta`, `convergence_score_lift_pct`.
+Arm comparison block: waste_rate_delta, duplicate_investigations_delta, compounding_events_delta, convergence_score_lift_pct.
 
 ---
 
-## 6. What we claim vs measure
+## Claim checklist
 
 | Claim | Status |
 |-------|--------|
-| Feedback reduces heat at similar throughput | **Empirical** - see [EMPIRICAL_RESULTS.md](EMPIRICAL_RESULTS.md) |
-| Duplicate detection | Heuristic (stdout/diffs/board text) |
+| Feedback reduces heat at similar throughput | Empirical - see EMPIRICAL_RESULTS.md |
+| Duplicate detection | Heuristic (stdout, diffs, board text) |
 | Compounding detection | Heuristic (transcript language) |
-| Measured ζ | **No** - analogy only |
-| Branch integration | **No** - future layer |
+| Measured damping ratio zeta | No - analogy only |
+| Branch integration | No - future layer |
 
 ---
 
-## 7. Generate charts
+## Generate charts
 
 ```bash
 python3 lib/generate_trial_charts.py docs/trial-data/trial-*-score-v2.json
 python3 lib/plot_trial.py docs/trial-data/trial-005-score-v2.json
 ```
-
-See [EMPIRICAL_RESULTS.md](EMPIRICAL_RESULTS.md) for frozen SeekerWebsite trial artifacts.
