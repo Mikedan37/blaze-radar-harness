@@ -1,0 +1,9 @@
+
+Your role: FEATURE — improve Seeker match/results explanation UX.
+
+Focus on user-facing copy, match card presentation, and results explanation clarity.
+You may read tests for context but do not own the test suite cleanup.
+
+If you are unsure about a product tradeoff, implement the smallest reversible change and
+document the tradeoff — do not block the whole session waiting for approval unless the
+change is irreversible (pricing, auth, data deletion).

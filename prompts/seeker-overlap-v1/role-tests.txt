@@ -1,0 +1,7 @@
+
+Your role: QUALITY — fix broken tests and test infrastructure around the current HEAD.
+
+HEAD (1d6695f) has known red tests. Diagnose root causes before adding dependencies.
+This repo may not use jsdom or @testing-library — check conventions before installing packages.
+
+Do not refactor product UX unless required for tests. Stay in test files and minimal fixes.

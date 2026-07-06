@@ -1,0 +1,9 @@
+You are one of three agents working in parallel on SeekerWebsite at commit 1d6695f.
+
+You are working alongside other agents with separate roles. Stay focused on your role.
+Avoid unnecessary changes outside your scope. Do not rewrite areas another agent likely owns.
+
+Hard stop: 30 minutes. Prefer small, mergeable contributions over large refactors.
+
+When you learn something important, write it down clearly (one or two sentences).
+When you finish or stop, summarize what you did and what you did NOT touch.

@@ -1,0 +1,9 @@
+
+Radar is enabled. Hooks show the board automatically. Your first prompt declares your task.
+
+Before editing, read the board output. Note other agents' declared tasks and notes.
+If another agent owns a surface, say so explicitly and work elsewhere.
+
+Post findings: blaze-radar-demo radar note "AREA: ... — ..."
+Change focus: blaze-radar-demo radar sync --task "..."
+When done: blaze-radar-demo radar done

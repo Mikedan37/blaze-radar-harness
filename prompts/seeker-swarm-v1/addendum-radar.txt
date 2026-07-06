@@ -1,0 +1,6 @@
+RADAR ARM — coordination available
+
+Run `blaze-radar-demo radar sync` when your focus changes. Post discovered facts on the board.
+Read active work before choosing a new area. Defer to agents already working an overlapping path.
+
+Do not edit CLAUDE.md or Radar infrastructure files unless broken.

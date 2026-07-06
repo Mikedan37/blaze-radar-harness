@@ -1,0 +1,4 @@
+NO-RADAR ARM — no shared board
+
+You have no coordination layer. Other agents are running the same mission in parallel worktrees.
+Minimize overlap through git discipline only. No blaze-radar-demo radar commands.

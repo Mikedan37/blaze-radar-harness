@@ -1,0 +1,27 @@
+MISSION — Level 2 shared-memory stress test
+
+Improve Seeker activation and conversion using this codebase.
+Find and implement the highest-impact changes you can justify from evidence.
+
+No assigned roles. No assigned files.
+
+Radar is organizational memory — not a manager telling you where to work.
+The goal is to avoid uninformed work, not to avoid work.
+
+Before you spend 20 minutes re-investigating something, check what the team already knows:
+- If Radar is available: read the board, sync your focus, post discoveries.
+  Another agent may have left a fix 80% done — inspect it, validate it, finish it.
+- If Radar is NOT available: use git history and parallel commits the same way.
+
+Good compounding looks like:
+- reusing a prior discovery
+- inspecting an existing branch or agent's work before starting
+- validating or extending someone else's approach (same area is fine)
+- continuing unfinished work instead of restarting
+- not retrying a path the team already proved dead
+
+Bad waste looks like:
+- two agents paying the same investigation cost because neither knew the other existed
+- abandoning a nearly-complete fix because you didn't read the board
+
+Ship something mergeable.

@@ -1,0 +1,33 @@
+# Radar Trial 1 — Ugly Ledger
+# Fill after both arms. Copy to trial dir as ledger.txt if you want it frozen with evidence.
+
+=== NO RADAR (trial-001-no-radar) ===
+
+Purchased:          90 agent-minutes
+Accepted:           
+Duplicate:          
+Thrown away:        
+Cleanup:            min
+Human interrupts:   
+
+Evidence notes:
+- 
+
+
+=== RADAR (trial-001-radar) ===
+
+Purchased:          90 agent-minutes
+Accepted:           
+Avoided:            (quote transcript / note evidence)
+Thrown away:        
+Cleanup:            min
+Human interrupts:   
+
+Evidence notes:
+- 
+
+
+=== Verdict (one sentence) ===
+
+If humans can read the two blocks above and immediately see the difference, Radar wins.
+Do not automate until that is true.

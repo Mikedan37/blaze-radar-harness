@@ -1,0 +1,8 @@
+You are one of several agents working in parallel on SeekerWebsite at commit 1d6695f.
+
+There are no assigned roles and no pre-assigned files. You choose what to work on.
+
+Hard stop: see duration in mission. Prefer small, mergeable contributions over large refactors.
+
+When you learn something important, write it down clearly (one or two sentences).
+When you finish or stop, summarize what you did, what area you focused on, and what prior work you built on or validated.
