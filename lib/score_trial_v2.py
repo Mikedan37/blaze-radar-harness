@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Scorer v2 — Radar harness evaluation from frozen trial artifacts only."""
+"""Scorer v2 - Radar harness evaluation from frozen trial artifacts only."""
 from __future__ import annotations
 
 import argparse
@@ -37,7 +37,7 @@ INVESTIGATION_VERBS = re.compile(
     r"root cause|failure|broken|red test|timeout|validat(?:e|ed|ing))\b",
     re.I,
 )
-# Diagnostic only — staying away is NOT compounding (do not score as success).
+# Diagnostic only - staying away is NOT compounding (do not score as success).
 SEPARATION_RE = re.compile(
     r"\b(out of (?:my )?scope|not in (?:my )?scope|did not touch|"
     r"leaving (?:this |that )?(?:area |work )?to|went elsewhere|"
@@ -427,7 +427,7 @@ def detect_coordination_leverage(
 
     gaps = []
     if group == "radar" and not any(a.stdout for a in agents):
-        gaps.append("stdout empty — cannot detect leverage signals")
+        gaps.append("stdout empty - cannot detect leverage signals")
 
     return {
         "coordination_leverage": {
@@ -503,10 +503,10 @@ def compute_agent_minutes(
         elif attempted and not committed:
             wasted_breakdown["abandoned_commits"] += mins
         elif not committed and art.stdout:
-            # worked but no commit — partial waste
+            # worked but no commit - partial waste
             wasted_breakdown["abandoned_commits"] += mins * 0.5
             productive += mins * 0.5
-            gaps.append(f"{art.role}: worked without commit — waste split 50/50 (estimate)")
+            gaps.append(f"{art.role}: worked without commit - waste split 50/50 (estimate)")
 
     if duplicate_count:
         # Allocate one agent-minute per duplicate topic per extra agent (estimate)
@@ -827,7 +827,7 @@ def score_arm_v2(
     )
 
     leverage = lev["coordination_leverage"]
-    # Prior context utilization only — separation is diagnostic, not credit.
+    # Prior context utilization only - separation is diagnostic, not credit.
     compounding_total = leverage.get("compounding_events", 0)
     if group == "no-radar":
         leverage_total = 0
@@ -1033,7 +1033,7 @@ def render_report(report: dict[str, Any]) -> str:
         "",
         "## Summary",
         "",
-        "**Question:** Do agents with shared memory avoid uninformed work — not just avoid work?",
+        "**Question:** Do agents with shared memory avoid uninformed work - not just avoid work?",
         "",
         f"**Waste rate:** no-radar {(nce.get('waste_rate') or 0)*100:.1f}% → radar {(rce.get('waste_rate') or 0)*100:.1f}%"
         + (f" (Δ {waste_delta*100:.1f} pp)" if waste_delta is not None else ""),
@@ -1077,7 +1077,7 @@ def render_report(report: dict[str, Any]) -> str:
     if sep:
         lines.extend(
             [
-                f"*(Diagnostic only — separation events: {sep}; not scored as success)*",
+                f"*(Diagnostic only - separation events: {sep}; not scored as success)*",
                 "",
             ]
         )
@@ -1110,7 +1110,7 @@ def render_report(report: dict[str, Any]) -> str:
             lines.append("")
             for d in dups:
                 lines.append(
-                    f"- **{d['topic']}** — agents: {', '.join(d['agents'])} "
+                    f"- **{d['topic']}** - agents: {', '.join(d['agents'])} "
                     f"({d['severity']})"
                 )
             lines.append("")
@@ -1152,7 +1152,7 @@ def render_report(report: dict[str, Any]) -> str:
                 "### Caution",
                 "",
                 f"Radar waste rate is **higher** by {waste_delta * 100:.1f} percentage points "
-                "in this trial — convergence score lift may reflect leverage heuristics, "
+                "in this trial - convergence score lift may reflect leverage heuristics, "
                 "not reduced waste. Treat short/contaminated runs as scorer validation only.",
                 "",
             ]

@@ -6,7 +6,7 @@ SeekerWebsite @ `1d6695f`, scorer v2. Artifacts in [`trial-data/`](trial-data/).
 
 ---
 
-## Trial 005 — clean isolation (best A/B so far)
+## Trial 005 - clean isolation (best A/B so far)
 
 8-agent swarm (`seeker-swarm-v1`), per-arm `git clone --dissociate`, 45m cap, **0 cross-arm** prior-context events.
 
@@ -30,15 +30,15 @@ Same throughput (8/8 commits). Radar arm: less wasted agent-minutes, lower waste
 | Wall time | 19.7 min | 15.2 min | radar faster (n=1) |
 | Convergence score | 0.055 | 0.070 | +26% lift |
 
-**Control read:** `E` held (same commits), `Q_heat` down sharply — matches “same energy, less heat.”
+**Control read:** `E` held (same commits), `Q_heat` down sharply - matches “same energy, less heat.”
 
 **Qualitative damping** ([interpretation](trial-data/trial-005-interpretation.md)): agent-06 read board overlap on `UploadPageClient` → abandoned duplicate upload path → pivoted to signup. Trajectory change from feedback, not assignment.
 
 ---
 
-## Trial 004 — mechanism yes, A/B contaminated
+## Trial 004 - mechanism yes, A/B contaminated
 
-Sequential arms on shared `~/SeekerWebsite` — radar could cherry-pick no-radar branches. Validates **agents consume surfaced context**; invalidates arm comparison.
+Sequential arms on shared `~/SeekerWebsite` - radar could cherry-pick no-radar branches. Validates **agents consume surfaced context**; invalidates arm comparison.
 
 ![Trial 004 energy partition](charts/trial-004-energy-heat.svg)
 
@@ -46,7 +46,7 @@ See [trial-004-interpretation.md](trial-data/trial-004-interpretation.md).
 
 ---
 
-## Trial 002 — short overlap pack (3 agents)
+## Trial 002 - short overlap pack (3 agents)
 
 Early run (~15 agent-min). Waste rate improved; duplication flat; Radar showed compounding events.
 
@@ -72,7 +72,7 @@ python3 lib/plot_trial.py docs/trial-data/trial-005-score-v2.json
 
 ## Batch in progress
 
-Trials 006–010 were running locally for variance estimation (not yet in this folder when frozen). Re-run:
+Trials 006-010 were running locally for variance estimation (not yet in this folder when frozen). Re-run:
 
 ```bash
 python3 lib/generate_trial_charts.py docs/trial-data/trial-*-score-v2.json

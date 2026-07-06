@@ -112,7 +112,7 @@ def render(report: dict[str, Any]) -> str:
             f"  convergence_score_lift_pct:    {cmp_.get('convergence_score_lift_pct')}",
             "",
             "Legend: lower waste/duplication + higher compounding/convergence = damping hypothesis supported.",
-            "        We do NOT compute damping ratio ζ — these are empirical proxies from frozen trial artifacts.",
+            "        We do NOT compute damping ratio ζ - these are empirical proxies from frozen trial artifacts.",
         ]
     )
     return "\n".join(lines) + "\n"

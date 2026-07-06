@@ -1,12 +1,12 @@
-# Trial 005 — Interpretation
+# Trial 005 - Interpretation
 
 ## Honest summary
 
-In an isolated 8-agent run against a strong baseline (agents + git + filesystem), Radar preserved throughput while reducing repeated investigations (7→5, −29%) and increasing within-team context reuse (same-arm 5→7). Early signal; needs larger trials (5–10 repeats).
+In an isolated 8-agent run against a strong baseline (agents + git + filesystem), Radar preserved throughput while reducing repeated investigations (7→5, −29%) and increasing within-team context reuse (same-arm 5→7). Early signal; needs larger trials (5-10 repeats).
 
 **Not:** solved coordination. **Not:** victory lap.
 
-**Outcome matrix:** leans **A** — same-arm context ↑, duplicate trajectories ↓, throughput not obviously killed.
+**Outcome matrix:** leans **A** - same-arm context ↑, duplicate trajectories ↓, throughput not obviously killed.
 
 ## Isolation
 
@@ -22,13 +22,13 @@ Real damping behavior, not scorer fiction:
 | Agent | Behavior |
 |-------|----------|
 | **agent-01** | Independent funnel analysis → desktop proof tile. Posted distinct evidence to board; noted overlap risk with peers on upload. |
-| **agent-02** | Same fix class (desktop example tile) — converged independently. |
+| **agent-02** | Same fix class (desktop example tile) - converged independently. |
 | **agent-03** | Validated demo CTA gating thesis; extended for cold visitors (`isColdVisitor`). |
 | **agent-05** | Board empty at start; posted funnel notes after shipping so others don't re-investigate. |
 | **agent-06** | **Read board** → saw 2 agents on `UploadPageClient` + "do NOT re-add desktop tile" warning → **abandoned** duplicate path → pivoted to signup form. |
 | **agent-07** | **Read board** → agent-05 claimed upload activation → **deferred** to guides sticky CTA instead. |
 
-Shape: discover → (board) → validate/defer/extend — not discover→implement loops in isolation.
+Shape: discover → (board) → validate/defer/extend - not discover→implement loops in isolation.
 
 ## Runtime (Trial 005)
 
@@ -37,13 +37,13 @@ Shape: discover → (board) → validate/defer/extend — not discover→impleme
 | no-radar | 19.7 min |
 | radar | 15.2 min |
 
-Radar finished **4.5 min faster** this run — same 8/8 commits. Not claiming speedup until batch variance is known.
+Radar finished **4.5 min faster** this run - same 8/8 commits. Not claiming speedup until batch variance is known.
 
 ## Agent-06 vs agent-07 (mechanism nuance)
 
 **agent-06** is the damping trace: overlap happened → board feedback → trajectory changed (upload → signup). Not "Radar prevented overlap."
 
-**agent-07** deferred upload — distinguish optimization ("coverage exists, marginal value elsewhere") from obedience ("forbidden lane").
+**agent-07** deferred upload - distinguish optimization ("coverage exists, marginal value elsewhere") from obedience ("forbidden lane").
 
 ## Caveats
 
@@ -53,5 +53,5 @@ Radar finished **4.5 min faster** this run — same 8/8 commits. Not claiming sp
 ## Next
 
 1. Harness commit accounting fixed
-2. Batch trials 006–010 running (variance + wall-time)
-3. If ~20–30% duplicate reduction persists across repeats → meaningful damping coefficient
+2. Batch trials 006-010 running (variance + wall-time)
+3. If ~20-30% duplicate reduction persists across repeats → meaningful damping coefficient

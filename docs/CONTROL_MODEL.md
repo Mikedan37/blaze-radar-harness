@@ -6,15 +6,15 @@ Full equations and harness mapping for blaze-radar-harness. Operational Radar se
 
 ## 1. State and loops
 
-**State variable** — distance from resolved system state:
+**State variable** - distance from resolved system state:
 
 ```
 x(t) ≥ 0 ,   x → 0  as bug fixed / feature shipped / investigation closed
 ```
 
-**Loop 1 — State feedback (Radar + harness):** close the observation path so agents adjust trajectories before re-exploring.
+**Loop 1 - State feedback (Radar + harness):** close the observation path so agents adjust trajectories before re-exploring.
 
-**Loop 2 — Integration (out of scope):** compose partial fixes on different branches into one stable state. Humans do this at merge/review today. Radar metadata helps; no tool here closes this loop.
+**Loop 2 - Integration (out of scope):** compose partial fixes on different branches into one stable state. Humans do this at merge/review today. Radar metadata helps; no tool here closes this loop.
 
 ---
 
@@ -27,7 +27,7 @@ agent acts → information I created → I lost at session edge
          → peer retraces region     → oscillation in state space
 ```
 
-With Radar (sensor only — no actuators on edits/merges):
+With Radar (sensor only - no actuators on edits/merges):
 
 ```
 agent acts → sync/note → S(t) updated → peer observes → trajectory adjusts
@@ -35,9 +35,9 @@ agent acts → sync/note → S(t) updated → peer observes → trajectory adjus
 
 ```mermaid
 flowchart LR
-  A1[agent-01] --> C[(codebase)]
+  A1[agent-01] --> C["codebase"]
   A2[agent-02] --> C
-  A1 <-->|sync, note| S[(board S(t))]
+  A1 <-->|sync, note| S["board St"]
   A2 <-->|sync, note| S
   S -->|observe| A1
   S -->|observe| A2
@@ -45,7 +45,7 @@ flowchart LR
 
 ---
 
-## 3. Dynamics (analogy — not fitted ζ)
+## 3. Dynamics (analogy - not fitted ζ)
 
 Inspired by damping, **not** a claim that we measure damping ratio ζ:
 
@@ -59,7 +59,7 @@ ẋ(t) ≈ −k · progress(t)  +  disturbance(t)  −  heat(t)
 | `disturbance(t)` | Exploration + merge friction | merge failures, conflicting work |
 | `heat(t)` | Redundant re-exploration | `waste_rate`, duplicate investigations |
 
-**Proximity ≠ collision.** What matters is **velocity through explored space** — same directory + new informed vector is fine; same directory + blind retry is oscillation.
+**Proximity ≠ collision.** What matters is **velocity through explored space** - same directory + new informed vector is fine; same directory + blind retry is oscillation.
 
 ---
 
@@ -94,7 +94,7 @@ convergence_score = (useful_outputs + leverage − duplicate_work − merge_cost
 
 Interpretation: progress toward resolution **per unit energy**. Higher at similar E ⇒ less heat, more damping.
 
-**Bad outcome (over-damped):** E collapses, duplicates → 0 — fear, not physics.
+**Bad outcome (over-damped):** E collapses, duplicates → 0 - fear, not physics.
 
 ---
 
@@ -116,11 +116,11 @@ Arm comparison (`comparison` block): `waste_rate_delta`, `duplicate_investigatio
 
 | Claim | Status |
 |-------|--------|
-| Feedback reduces heat at similar throughput | **Empirical** — see [EMPIRICAL_RESULTS.md](EMPIRICAL_RESULTS.md) |
+| Feedback reduces heat at similar throughput | **Empirical** - see [EMPIRICAL_RESULTS.md](EMPIRICAL_RESULTS.md) |
 | Duplicate detection | Heuristic (stdout/diffs/board text) |
 | Compounding detection | Heuristic (transcript language) |
-| Measured ζ | **No** — analogy only |
-| Branch integration | **No** — future layer |
+| Measured ζ | **No** - analogy only |
+| Branch integration | **No** - future layer |
 
 ---
 

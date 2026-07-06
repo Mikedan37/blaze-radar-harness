@@ -15,7 +15,7 @@ Freeze this document before running. Change only `prompt_pack` version if prompt
 | **prompt_pack** | `seeker-overlap-v1` |
 | **merge_order** | feature → tests → audit |
 
-**Question:** Does Radar reduce wasted parallel work — not “better code,” but less duplicate effort and cleanup?
+**Question:** Does Radar reduce wasted parallel work - not “better code,” but less duplicate effort and cleanup?
 
 **Variable isolated:** coordination layer (board, tasks, notes, collision warnings).  
 **Held constant:** repo, SHA, model, duration, roles, merge order, baseline parallel etiquette.
@@ -30,18 +30,18 @@ What you are measuring:
 Claude Code × 3 + Radar   vs   Claude Code × 3, no Radar
 ```
 
-**Cursor / harness (lab assistant)** — safe:
+**Cursor / harness (lab assistant)** - safe:
 
 - Create worktrees, verify SHA, start timers
 - Run `collect-trial.sh`, merge rehearsals, package transcripts
 - Generate facts JSON; help fill `judgments.json` from **frozen** evidence after the run
 
-**Cursor / harness** — not safe during the run:
+**Cursor / harness** - not safe during the run:
 
 - Tell Claude agents what others are doing
 - Summarize progress mid-run, route tasks, decide who edits what
 
-That is Radar's job in the Radar arm — and nobody's job in the no-Radar arm.  
+That is Radar's job in the Radar arm - and nobody's job in the no-Radar arm.  
 If Cursor orchestrates agents, you measure `Claude + Cursor coordination + Radar` vs `Claude + Cursor coordination`. Three steering wheels. Haunted graph.
 
 **Clean flow:**
@@ -79,7 +79,7 @@ Trial 1 order: either arm first is fine. Later trials: randomize arm order to av
 
 ## Setup (run once per arm)
 
-Harness script (worktrees + SHA only — does not launch agents):
+Harness script (worktrees + SHA only - does not launch agents):
 
 ```bash
 AgentCLI/scripts/setup-trial-1.sh --repo ~/SeekerWebsite --parent ~/radar-trials
@@ -131,7 +131,7 @@ Each worktree is one Claude window. Do not share a checkout between agents.
 cd ~/Developer/ProjectBlaze/AgentCLI && make install
 blaze daemon start
 
-# once per radar worktree (or install from main repo — board is shared per git root)
+# once per radar worktree (or install from main repo - board is shared per git root)
 cd ~/radar-trials/trial-001-radar/feature
 blaze radar install
 ```
@@ -170,40 +170,40 @@ When you learn something important, write it down clearly (one or two sentences)
 When you finish or stop, summarize what you did and what you did NOT touch.
 ```
 
-### Role: feature (window 1 — `feature` worktree)
+### Role: feature (window 1 - `feature` worktree)
 
 ```
 {SHARED PREAMBLE}
 
-Your role: FEATURE — improve Seeker match/results explanation UX.
+Your role: FEATURE - improve Seeker match/results explanation UX.
 
 Focus on user-facing copy, match card presentation, and results explanation clarity.
 You may read tests for context but do not own the test suite cleanup.
 
 If you are unsure about a product tradeoff, implement the smallest reversible change and
-document the tradeoff — do not block the whole session waiting for approval unless the
+document the tradeoff - do not block the whole session waiting for approval unless the
 change is irreversible (pricing, auth, data deletion).
 ```
 
-### Role: tests (window 2 — `tests` worktree)
+### Role: tests (window 2 - `tests` worktree)
 
 ```
 {SHARED PREAMBLE}
 
-Your role: QUALITY — fix broken tests and test infrastructure around the current HEAD.
+Your role: QUALITY - fix broken tests and test infrastructure around the current HEAD.
 
 HEAD (1d6695f) has known red tests. Diagnose root causes before adding dependencies.
-This repo may not use jsdom or @testing-library — check conventions before installing packages.
+This repo may not use jsdom or @testing-library - check conventions before installing packages.
 
 Do not refactor product UX unless required for tests. Stay in test files and minimal fixes.
 ```
 
-### Role: audit (window 3 — `audit` worktree)
+### Role: audit (window 3 - `audit` worktree)
 
 ```
 {SHARED PREAMBLE}
 
-Your role: ARCHITECTURE — read-only reliability/consistency audit.
+Your role: ARCHITECTURE - read-only reliability/consistency audit.
 
 Look for cross-cutting risks: API route consistency, timeout patterns, internal route guards,
 error handling drift. Report findings; do not implement broad fixes unless trivial and safe.
@@ -211,7 +211,7 @@ error handling drift. Report findings; do not implement broad fixes unless trivi
 Defer test-suite repair and UX changes to the other agents unless you find a critical security issue.
 ```
 
-### Radar addendum (arm B only — append to each role prompt)
+### Radar addendum (arm B only - append to each role prompt)
 
 ```
 Radar is enabled. Hooks show the board automatically. Your first prompt declares your task.
@@ -219,12 +219,12 @@ Radar is enabled. Hooks show the board automatically. Your first prompt declares
 Before editing, read the board output. Note other agents' declared tasks and notes.
 If another agent owns a surface, say so explicitly and work elsewhere.
 
-Post findings: blaze radar note "AREA: ... — ..."
+Post findings: blaze radar note "AREA: ... - ..."
 Change focus: blaze radar sync --task "..."
 When done: blaze radar done
 ```
 
-### No-Radar addendum (arm A only — append to each role prompt)
+### No-Radar addendum (arm A only - append to each role prompt)
 
 ```
 Radar is disabled for this trial. Do not read ~/.blaze/radar or run blaze radar commands.
@@ -238,7 +238,7 @@ Coordinate only through git and your own judgment.
 1. Start three Claude Code sessions (one per worktree).
 2. Paste the full prompt for that role (preamble + role + arm addendum).
 3. Run 30 minutes. Stop all agents at the same wall clock if possible.
-4. Commit on each branch (even WIP — facts need git artifacts):
+4. Commit on each branch (even WIP - facts need git artifacts):
 
 ```bash
 # in each worktree
@@ -316,7 +316,7 @@ Notes:
 Purchased:     90 agent-minutes
 
 Accepted:      ___
-Avoided:       ___  (agents explicitly routed around each other — quote evidence)
+Avoided:       ___  (agents explicitly routed around each other - quote evidence)
 Thrown away:   ___
 Cleanup:       ___ min
 Human interrupts: ___
@@ -337,10 +337,10 @@ No-Radar arm cannot produce `Avoided` with board evidence.
 
 See `judgments.template.json` in each trial dir. Key fields:
 
-- `contributions[]` — accepted units (finding / fix / test), not LOC
-- `interference` — L1–L4 counts with quoted evidence
-- `avoidance_events[]` — Radar arm only
-- `human_interventions[]` — hidden scheduler cost
+- `contributions[]` - accepted units (finding / fix / test), not LOC
+- `interference` - L1-L4 counts with quoted evidence
+- `avoidance_events[]` - Radar arm only
+- `human_interventions[]` - hidden scheduler cost
 - `cleanup_minutes`, `coordination_overhead_minutes`
 
 ### Interference rubric (weighted)
@@ -353,7 +353,7 @@ See `judgments.template.json` in each trial dir. Key fields:
 | L3 | overlapping edits, one discarded | -5 |
 | L4 | merge conflict / human repair | -10 |
 
-File overlap in `agents/file_overlap.json` is **fact only** — not a penalty by itself.
+File overlap in `agents/file_overlap.json` is **fact only** - not a penalty by itself.
 
 ---
 
@@ -391,4 +391,4 @@ git worktree remove ~/radar-trials/trial-001-no-radar/audit
 
 | prompt_pack | Change |
 |-------------|--------|
-| `seeker-overlap-v1` | Initial Trial 1 — SeekerWebsite @ 1d6695f, shared preamble, isolated Radar addendum |
+| `seeker-overlap-v1` | Initial Trial 1 - SeekerWebsite @ 1d6695f, shared preamble, isolated Radar addendum |

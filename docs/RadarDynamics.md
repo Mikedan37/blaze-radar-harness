@@ -2,11 +2,11 @@
 
 > **Thesis:** AI coding doesn't need a boss. It needs **state awareness**.
 >
-> Radar is not a multi-agent coordination platform. It is a **feedback layer** that changes the dynamics of parallel work — reducing repeated trajectories through state space without reducing useful system energy.
+> Radar is not a multi-agent coordination platform. It is a **feedback layer** that changes the dynamics of parallel work - reducing repeated trajectories through state space without reducing useful system energy.
 
 This document explains the control-theory framing behind Blaze Radar: what problem it solves, what it deliberately does *not* solve, how to evaluate whether it works, and where the hard problems move next.
 
-For operational setup, see [blaze-radar](https://github.com/Mikedan37/blaze-radar). For the measurement harness, see [blaze-radar-harness](https://github.com/Mikedan37/blaze-radar-harness) — [CONTROL_MODEL.md](https://github.com/Mikedan37/blaze-radar-harness/blob/main/docs/CONTROL_MODEL.md), [EMPIRICAL_RESULTS.md](https://github.com/Mikedan37/blaze-radar-harness/blob/main/docs/EMPIRICAL_RESULTS.md).
+For operational setup, see [blaze-radar](https://github.com/Mikedan37/blaze-radar). For the measurement harness, see [blaze-radar-harness](https://github.com/Mikedan37/blaze-radar-harness) - [CONTROL_MODEL.md](https://github.com/Mikedan37/blaze-radar-harness/blob/main/docs/CONTROL_MODEL.md), [EMPIRICAL_RESULTS.md](https://github.com/Mikedan37/blaze-radar-harness/blob/main/docs/EMPIRICAL_RESULTS.md).
 
 ---
 
@@ -24,7 +24,7 @@ That assumption produces a familiar stack:
 planner → assignment → ownership → locks → approval
 ```
 
-Linear, Jira, standups, and file locks all solve **coordination** — who does what, who approved what. The failure mode Radar targets is **state convergence**: independent workers repeatedly traversing the same explored space because they lack shared history.
+Linear, Jira, standups, and file locks all solve **coordination** - who does what, who approved what. The failure mode Radar targets is **state convergence**: independent workers repeatedly traversing the same explored space because they lack shared history.
 
 | Approach | What it solves | What it doesn't |
 |----------|----------------|-----------------|
@@ -32,13 +32,13 @@ Linear, Jira, standups, and file locks all solve **coordination** — who does w
 | Agent-to-agent chat | Point-to-point messages | Durable, repo-scoped state history |
 | File assignment | Write conflict avoidance | Informed exploration vs blind retry |
 
-Radar is not a replacement for any of these. It is **observability for parallel intelligence** — a phase plane agents read before acting.
+Radar is not a replacement for any of these. It is **observability for parallel intelligence** - a phase plane agents read before acting.
 
 Radar rejects this model entirely. The docs state it plainly:
 
 - *"The board stays dumb; workers stay smart."*
 - *"Radar does not lock files."*
-- *"Make parallel agent work observable — not coordinate agents."*
+- *"Make parallel agent work observable - not coordinate agents."*
 
 The product is not managing agents. It is **changing the dynamics of the system**.
 
@@ -63,11 +63,11 @@ The environment should tell each agent:
 
 Then let intelligence decide. No planner assigns work. No lock blocks motion. No approval gate slows the loop.
 
-Radar implements this as a **shared phase plane** — a whiteboard per git repository where each agent posts:
+Radar implements this as a **shared phase plane** - a whiteboard per git repository where each agent posts:
 
-- **Task** — declared intent (what vector they're pursuing)
-- **Notes** — discoveries, failures, partial fixes (state history)
-- **Presence** — heartbeat via `sync` (who is active, how recently)
+- **Task** - declared intent (what vector they're pursuing)
+- **Notes** - discoveries, failures, partial fixes (state history)
+- **Presence** - heartbeat via `sync` (who is active, how recently)
 
 Hooks surface the board before edits. They **never block**. Culture (`CLAUDE.md`) instructs agents to sync, read, note, and respond to overlap warnings. The control loop is **advisory**, not authoritarian.
 
@@ -83,15 +83,15 @@ Define the system's distance from resolution:
 x(t) = distance from resolved system state
 ```
 
-**Resolved** means: the bug is fixed, the feature ships, the investigation converges — not "every agent is in a separate directory."
+**Resolved** means: the bug is fixed, the feature ships, the investigation converges - not "every agent is in a separate directory."
 
 The goal is fast convergence of `x(t) → 0` with **minimal heat loss** (wasted agent-minutes on redundant work).
 
 ### 3.2 Two loops (only one is Radar)
 
-**Loop 1 — State feedback (Radar):** agents act → information captured on board → other agents observe → trajectories adjust. Goal: reduce oscillation through explored space.
+**Loop 1 - State feedback (Radar):** agents act → information captured on board → other agents observe → trajectories adjust. Goal: reduce oscillation through explored space.
 
-**Loop 2 — Integration (not Radar):** multiple partial fixes on different branches → which compose into the next stable state? Goal: composition, not observation. Humans do this in review/merge today. Radar metadata (intent, notes, failed paths) makes it easier; **no tool in this stack closes this loop yet.**
+**Loop 2 - Integration (not Radar):** multiple partial fixes on different branches → which compose into the next stable state? Goal: composition, not observation. Humans do this in review/merge today. Radar metadata (intent, notes, failed paths) makes it easier; **no tool in this stack closes this loop yet.**
 
 See the [harness README control model](https://github.com/Mikedan37/blaze-radar-harness#control-system-model) for equations and measured proxies.
 
@@ -111,7 +111,7 @@ knowledge lost again
 system crosses the same states repeatedly
 ```
 
-This is **oscillation**: the system traverses the same region of state space multiple times. It looks like progress (commits, stdout, file edits) but dissipates energy as heat — duplicate investigations, abandoned work, merge repair, conflicting patches.
+This is **oscillation**: the system traverses the same region of state space multiple times. It looks like progress (commits, stdout, file edits) but dissipates energy as heat - duplicate investigations, abandoned work, merge repair, conflicting patches.
 
 ### 3.4 What Radar adds
 
@@ -121,11 +121,11 @@ Radar injects **state feedback** into the loop:
 (current board + history) → next action
 ```
 
-Each `blaze radar sync` is a sample of the shared state. Each `blaze radar note` writes history into the phase plane. Collision warnings flag potential trajectory overlap. The agent's LLM is the controller — Radar is the sensor network.
+Each `blaze radar sync` is a sample of the shared state. Each `blaze radar note` writes history into the phase plane. Collision warnings flag potential trajectory overlap. The agent's LLM is the controller - Radar is the sensor network.
 
 ### 3.5 Damping regimes (analogy, not measured ζ)
 
-Map classical damping to multi-agent behavior **as an analogy**. We do not claim to measure a damping ratio ζ — trials are the empirical test. The framing is *inspired by* damping dynamics, not a proof that Radar achieves critical damping.
+Map classical damping to multi-agent behavior **as an analogy**. We do not claim to measure a damping ratio ζ - trials are the empirical test. The framing is *inspired by* damping dynamics, not a proof that Radar achieves critical damping.
 
 | Regime | Multi-agent behavior | Radar stance |
 |--------|---------------------|--------------|
@@ -135,7 +135,7 @@ Map classical damping to multi-agent behavior **as an analogy**. We do not claim
 
 **Near-critical behavior** in this context would mean:
 
-> Fast convergence to a **stable solution trajectory** — not a territorial split.
+> Fast convergence to a **stable solution trajectory** - not a territorial split.
 
 Agents don't need lanes. They need **phase alignment**: complementary effort vectors that compound rather than collide.
 
@@ -149,7 +149,7 @@ Human team metaphors ("ownership," "handoffs," "standups") break down for parall
 
 **Proximity in workspace ≠ collision.**
 
-Two agents editing files in `src/auth/` is not automatically bad. Five agents on an auth outage can be optimal — if their vectors are aligned:
+Two agents editing files in `src/auth/` is not automatically bad. Five agents on an auth outage can be optimal - if their vectors are aligned:
 
 ```
 agent-01: traces root cause
@@ -161,16 +161,16 @@ agent-05: validates deploy
 
 That is not a split by territory. Everyone is on auth. The energy vectors are aligned. Efficient chaos.
 
-What matters is **velocity through explored space** — whether an agent's next action traverses *new* state or retraces steps another agent already took.
+What matters is **velocity through explored space** - whether an agent's next action traverses *new* state or retraces steps another agent already took.
 
 ### 4.2 The four quadrants
 
 | Position | Velocity | Verdict |
 |----------|----------|---------|
-| Same area | New vector | ✅ Swarm — complementary angles on one problem |
-| Different area | New vector | ✅ Parallel — independent progress |
-| Same area | Same old vector | ❌ Oscillation — duplicate trajectory |
-| Different area | Useless vector | ❌ Noise — wasted energy off the critical path |
+| Same area | New vector | ✅ Swarm - complementary angles on one problem |
+| Different area | New vector | ✅ Parallel - independent progress |
+| Same area | Same old vector | ❌ Oscillation - duplicate trajectory |
+| Different area | Useless vector | ❌ Noise - wasted energy off the critical path |
 
 Radar's overlap warnings are a **coarse sensor** for "same area + possibly same vector." They cannot distinguish swarm from collision automatically. **Notes** are what convert overlap into alignment:
 
@@ -182,7 +182,7 @@ Without the note, same-area overlap looks like collision. With the note, it beco
 
 ### 4.3 Exploration vs oscillation
 
-Error is useful. Failed attempts are data. The system should not eliminate exploration — it should eliminate **uninformed repetition**.
+Error is useful. Failed attempts are data. The system should not eliminate exploration - it should eliminate **uninformed repetition**.
 
 | Scenario | Verdict |
 |----------|---------|
@@ -236,7 +236,7 @@ No Radar:  100 commits, 30 duplicate paths
 Radar:      20 commits,  0 duplicate paths
 ```
 
-Throughput collapsed. Agents became cautious. You invented corporate process — over-damping. Zero oscillation, zero velocity.
+Throughput collapsed. Agents became cautious. You invented corporate process - over-damping. Zero oscillation, zero velocity.
 
 ### 6.2 Good Radar win (same energy, less heat)
 
@@ -245,7 +245,7 @@ No Radar:  100 units effort → 60 useful, 40 repeated
 Radar:     100 units effort → 85 useful, 15 repeated
 ```
 
-Same system energy. Less heat loss. That is the **good damping** outcome the harness looks for: oscillation reduced without killing motion. Whether the system sits at ζ ≈ 1 is an empirical question — not a doc claim.
+Same system energy. Less heat loss. That is the **good damping** outcome the harness looks for: oscillation reduced without killing motion. Whether the system sits at ζ ≈ 1 is an empirical question - not a doc claim.
 
 ### 6.3 Convergence score (trial scorer)
 
@@ -255,7 +255,7 @@ The problem is **state convergence**, not coordination as management. The scorer
 convergence_score = (useful_outputs + leverage − duplicate_work − merge_cost) / agent_minutes
 ```
 
-Interpretation: productive movement toward resolved state (`x(t) → 0`) per unit energy spent. Higher is better. This is not a leaderboard point — it is one channel on the oscilloscope.
+Interpretation: productive movement toward resolved state (`x(t) → 0`) per unit energy spent. Higher is better. This is not a leaderboard point - it is one channel on the oscilloscope.
 
 Legacy JSON from older runs may still label this `coordination_score`; treat it as the same metric.
 
@@ -277,7 +277,7 @@ Compounding detection looks for language like:
 - *"already found"*
 - *"read the board before starting"*
 
-Separation signals (*"out of my scope"*, *"leaving this to"*) are tracked but **not credited** — avoiding territory is not the product win; informed work is.
+Separation signals (*"out of my scope"*, *"leaving this to"*) are tracked but **not credited** - avoiding territory is not the product win; informed work is.
 
 ---
 
@@ -313,7 +313,7 @@ Separation signals (*"out of my scope"*, *"leaving this to"*) are tracked but **
 
 **Disturbance:** Parallel agents, incomplete information, session boundaries
 
-Radar is deliberately **not** in the actuator path. Hooks surface stderr warnings; they do not block writes. This keeps the system on the left side of critical — feedback without friction.
+Radar is deliberately **not** in the actuator path. Hooks surface stderr warnings; they do not block writes. This keeps the system on the left side of critical - feedback without friction.
 
 ---
 
@@ -351,7 +351,7 @@ When running Radar vs no-Radar trials, the question is:
 
 ### 8.3 Harness boundary
 
-The trial harness must **not** become a second coordinator. If Cursor/orchestrator tells agents what others are doing mid-run, you measure `Claude + harness + Radar` vs `Claude + harness` — three steering wheels. Radar's job in the Radar arm; nobody's in the no-Radar arm.
+The trial harness must **not** become a second coordinator. If Cursor/orchestrator tells agents what others are doing mid-run, you measure `Claude + harness + Radar` vs `Claude + harness` - three steering wheels. Radar's job in the Radar arm; nobody's in the no-Radar arm.
 
 ---
 
@@ -370,7 +370,7 @@ This works at small scale. At larger scale, the question shifts from *"is there 
 
 | Failure mode | Analog | Symptom |
 |--------------|--------|---------|
-| Too little feedback | Under-damped | Oscillation returns — agents miss relevant notes |
+| Too little feedback | Under-damped | Oscillation returns - agents miss relevant notes |
 | Too much feedback | Over-damped | Agent reads entire board, slows down, loses momentum |
 | Wrong feedback | Instability | Agent acts on stale or irrelevant note, goes off-vector |
 
@@ -381,7 +381,7 @@ given: agent task + current file + board history
 return: minimal sufficient context for next action
 ```
 
-This is not solved by Radar v1. The board is intentionally dumb — full dump, no ranking, no embeddings, no assignment. Future work might include:
+This is not solved by Radar v1. The board is intentionally dumb - full dump, no ranking, no embeddings, no assignment. Future work might include:
 
 - Relevance filtering (task overlap, file overlap, recency)
 - Note summarization at scale
@@ -404,7 +404,7 @@ Radar is one feedback layer. Other parts of ProjectBlaze use similar dynamics la
 | **Failure Memory** | Prior failures → plan constraints | ProjectBlaze (private host) |
 | **Execution Guard** | Per-workspace serialization | AgentDaemon `WorkspaceLock` |
 
-The Risk Engine's hysteresis band (block at 60, unlock at 75) is explicit anti-oscillation design — prevent flapping between blocked and unblocked near the threshold. Same philosophy: change dynamics, don't add a human in the loop.
+The Risk Engine's hysteresis band (block at 60, unlock at 75) is explicit anti-oscillation design - prevent flapping between blocked and unblocked near the threshold. Same philosophy: change dynamics, don't add a human in the loop.
 
 Radar operates at a different layer: **between agents**, not **within one agent's safety envelope**.
 
@@ -426,7 +426,7 @@ Radar operates at a different layer: **between agents**, not **within one agent'
 
 **Wrong:** "Multi-agent coordination platform with task assignment and ownership."
 
-**Right:** "Shared phase plane for parallel coding agents. Tells them where energy was spent, what's known, what failed — so they compound instead of collide."
+**Right:** "Shared phase plane for parallel coding agents. Tells them where energy was spent, what's known, what failed - so they compound instead of collide."
 
 **Systems claim:** Parallel intelligence does not scale without shared state. Radar is one sensor implementation; the harness is the oscilloscope that checks whether the universe agrees.
 
@@ -444,6 +444,6 @@ Radar operates at a different layer: **between agents**, not **within one agent'
 | **Heat loss** | Agent-minutes spent on redundant work |
 | **Compounding** | Agent B's work builds on Agent A's recorded findings |
 | **Swarm** | Multiple agents on same area with aligned, complementary vectors |
-| **Over-damping** | Excessive caution — low oscillation, low throughput |
-| **Near-critical (analogy)** | Fast convergence to useful trajectory without killing system energy — aspirational, empirically tested |
-| **Convergence score** | `(useful + leverage − duplicate − merge_cost) / agent_minutes` — progress toward resolution per energy |
+| **Over-damping** | Excessive caution - low oscillation, low throughput |
+| **Near-critical (analogy)** | Fast convergence to useful trajectory without killing system energy - aspirational, empirically tested |
+| **Convergence score** | `(useful + leverage − duplicate − merge_cost) / agent_minutes` - progress toward resolution per energy |
