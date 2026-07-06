@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="340" viewBox="0 0 760 340">
+<style>text{font-family:ui-monospace,Menlo,monospace;font-size:12px;fill:#e6edf3}.title{font-size:14px;font-weight:600}.sub{fill:#8b949e;font-size:11px}.bar-nr{fill:#f85149}.bar-rd{fill:#3fb950}.grid{stroke:#30363d;stroke-width:1}.axis{fill:#8b949e}</style>
+<rect width="760" height="340" fill="#0d1117"/>
+<text x="24" y="28" class="title">Trial 005 — isolated 8-agent swarm (SeekerWebsite @ 1d6695f)</text>
+<text x="24" y="46" class="sub">Same commits (8/8) · per-arm git clone · seeker-swarm-v1 · 45m cap</text>
+<rect x="24" y="56" width="12" height="12" class="bar-nr"/>
+<text x="42" y="66" class="axis">No feedback</text>
+<rect x="140" y="56" width="12" height="12" class="bar-rd"/>
+<text x="158" y="66" class="axis">+ Radar</text>
+<rect x="113.0" y="100.0" width="28" height="200.0" class="bar-nr"/>
+<text x="127.0" y="96.0" text-anchor="middle" class="axis">0.78</text>
+<rect x="149.0" y="190.3" width="28" height="109.7" class="bar-rd"/>
+<text x="163.0" y="186.32258064516128" text-anchor="middle" class="axis">0.42</text>
+<text x="145.0" y="318" text-anchor="middle" class="axis">Waste rate</text>
+<rect x="283.0" y="100.0" width="28" height="200.0" class="bar-nr"/>
+<text x="297.0" y="96.0" text-anchor="middle" class="axis">0.88</text>
+<rect x="319.0" y="157.1" width="28" height="142.9" class="bar-rd"/>
+<text x="333.0" y="153.14285714285714" text-anchor="middle" class="axis">0.62</text>
+<text x="315.0" y="318" text-anchor="middle" class="axis">Cog dup rate</text>
+<rect x="453.0" y="141.5" width="28" height="158.5" class="bar-nr"/>
+<text x="467.0" y="137.4878397711016" text-anchor="middle" class="axis">0.06</text>
+<rect x="489.0" y="100.0" width="28" height="200.0" class="bar-rd"/>
+<text x="503.0" y="96.0" text-anchor="middle" class="axis">0.07</text>
+<text x="485.0" y="318" text-anchor="middle" class="axis">Convergence</text>
+<rect x="623.0" y="100.0" width="28" height="200.0" class="bar-nr"/>
+<text x="637.0" y="96.0" text-anchor="middle" class="axis">1.00</text>
+<rect x="659.0" y="100.0" width="28" height="200.0" class="bar-rd"/>
+<text x="673.0" y="96.0" text-anchor="middle" class="axis">1.00</text>
+<text x="655.0" y="318" text-anchor="middle" class="axis">Prior context</text>
+<line x1="50" y1="300" x2="740" y2="300" class="grid"/>
+</svg>

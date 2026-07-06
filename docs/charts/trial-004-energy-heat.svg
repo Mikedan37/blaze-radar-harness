@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="520" height="280" viewBox="0 0 520 280">
+<style>text{font-family:ui-monospace,Menlo,monospace;font-size:12px;fill:#e6edf3}.title{font-size:14px;font-weight:600}.sub{fill:#8b949e;font-size:11px}.bar-nr{fill:#f85149}.bar-rd{fill:#3fb950}.grid{stroke:#30363d;stroke-width:1}.axis{fill:#8b949e}</style>
+<rect width="520" height="280" fill="#0d1117"/>
+<text x="24" y="28" class="title">trial-004 — energy partition (agent-minutes)</text>
+<text x="24" y="46" class="sub">E = productive + wasted  ·  Q_heat ≈ waste_rate · E</text>
+<rect x="24" y="56" width="12" height="12" fill="#3fb950"/>
+<text x="42" y="66" class="axis">Productive</text>
+<rect x="120" y="56" width="12" height="12" fill="#f85149"/>
+<text x="138" y="66" class="axis">Heat (wasted)</text>
+<rect x="175.0" y="80.00000000000001" width="70" height="60.9375" fill="#3fb950"/>
+<rect x="175.0" y="140.9375" width="70" height="89.06249999999999" fill="#f85149"/>
+<text x="210.0" y="248" text-anchor="middle" class="axis">No feedback</text>
+<text x="210.0" y="264" text-anchor="middle" class="sub">153 agent-min</text>
+<rect x="275.0" y="145.0366108786611" width="70" height="35.57792887029289" fill="#3fb950"/>
+<rect x="275.0" y="180.61453974895397" width="70" height="49.38546025104603" fill="#f85149"/>
+<text x="310.0" y="248" text-anchor="middle" class="axis">+ Radar</text>
+<text x="310.0" y="264" text-anchor="middle" class="sub">87 agent-min</text>
+</svg>

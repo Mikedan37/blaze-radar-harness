@@ -1,0 +1,34 @@
+Trial: trial-005  (scorer v2)
+
+=== Energy & heat (agent-minutes) ===
+
+No feedback  total=157.8m  productive=35.5m  wasted=122.3m
+             waste_rate ██████████████████████       0.775
+
++ Radar      total=121.6m  productive=69.9m  wasted=51.7m
+             waste_rate ████████████                 0.425
+
+=== Oscillation proxies ===
+
+No feedback  duplicate_topics=7  cognitive_duplication_rate=0.875
+             ████████████████████████     0.875
+
++ Radar      duplicate_topics=5  cognitive_duplication_rate=0.625
+             ██████████████████           0.625
+
+=== Feedback / damping proxies (Radar arm only meaningful) ===
+
+No feedback  prior_context=8  compounding=8  convergence=0.0554
+
++ Radar      prior_context=8  compounding=8  convergence=0.0699
+
+=== Arm comparison (Radar − No feedback) ===
+
+  waste_rate_delta:              -0.35
+  duplicate_investigations_delta:-2
+  compounding_events_delta:      0
+  prior_context_utilization_delta:0
+  convergence_score_lift_pct:    0.262
+
+Legend: lower waste/duplication + higher compounding/convergence = damping hypothesis supported.
+        We do NOT compute damping ratio ζ — these are empirical proxies from frozen trial artifacts.

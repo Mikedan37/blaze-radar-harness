@@ -20,7 +20,7 @@ The goal is not zero mistakes. **The goal is damping.**
 
 > Proximity in workspace ≠ collision. What matters is velocity through explored space.
 
-**Theory:** [docs/RadarDynamics.md](docs/RadarDynamics.md)
+**Theory:** [docs/CONTROL_MODEL.md](docs/CONTROL_MODEL.md) · **Results:** [docs/EMPIRICAL_RESULTS.md](docs/EMPIRICAL_RESULTS.md)
 
 ---
 
@@ -194,14 +194,16 @@ Arm comparison deltas (from score JSON `comparison` block):
 
 ### Visualize a trial run
 
-After scoring:
+After scoring (or use frozen data in `docs/trial-data/`):
 
 ```bash
-./harness/score-trial.sh --trial trial-002 --out ~/radar-harness/trial-002-score.json
-python3 lib/plot_trial.py ~/radar-harness/trial-002-score.json
+./harness/score-trial.sh --trial trial-005 --out docs/trial-data/trial-005-score-v2.json
+python3 lib/plot_trial.py docs/trial-data/trial-005-score-v2.json
+python3 lib/generate_trial_charts.py docs/trial-data/trial-*-score-v2.json
 ```
 
-ASCII bars for waste rate, duplication, compounding — enough to eyeball **same energy, less heat** without pretending we have continuous x(t) telemetry.
+- `plot_trial.py` — ASCII bars in terminal  
+- `generate_trial_charts.py` — SVG charts for docs/README (see [EMPIRICAL_RESULTS.md](docs/EMPIRICAL_RESULTS.md))
 
 ### What we claim vs what we measure
 
@@ -220,6 +222,16 @@ ASCII bars for waste rate, duplication, compounding — enough to eyeball **same
 **Bad damping (over-damped):** lower **E**, zero duplicates — fear, not physics.
 
 Territory spread is **diagnostic only**. Five agents on one auth bug with complementary vectors is a feature, not a failure.
+
+### Empirical snapshot (Trial 005 — isolated 8-agent swarm)
+
+Frozen SeekerWebsite run: same commits (8/8), **−35 pp waste rate**, duplicate topics 7→5. Matches “same energy, less heat.”
+
+![Trial 005 energy vs heat](docs/charts/trial-005-energy-heat.svg)
+
+![Trial 005 oscillation & damping proxies](docs/charts/trial-005-dashboard.svg)
+
+Full write-up, trial 002/004 context, and chart regeneration: [docs/EMPIRICAL_RESULTS.md](docs/EMPIRICAL_RESULTS.md).
 
 ---
 
@@ -288,15 +300,22 @@ Defaults:
 ```
 blaze-radar-harness/
 ├── README.md
-├── docs/RadarDynamics.md       control theory framing
+├── docs/
+│   ├── CONTROL_MODEL.md
+│   ├── EMPIRICAL_RESULTS.md
+│   ├── RadarDynamics.md
+│   ├── trial-data/
+│   └── charts/
 ├── protocol/trial-1-protocol.md
 ├── harness/
 │   ├── run-trial.sh
 │   ├── collect-trial.sh
 │   ├── score-trial.sh
 │   └── setup-trial-1.sh
-├── lib/score_trial_v2.py
-│   plot_trial.py               ASCII chart from score JSON
+├── lib/
+│   ├── score_trial_v2.py
+│   ├── plot_trial.py
+│   └── generate_trial_charts.py
 └── prompts/
     ├── seeker-overlap-v1/
     └── seeker-swarm-v1/

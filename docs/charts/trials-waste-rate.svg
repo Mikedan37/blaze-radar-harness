@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="300" viewBox="0 0 640 300">
+<style>text{font-family:ui-monospace,Menlo,monospace;font-size:12px;fill:#e6edf3}.title{font-size:14px;font-weight:600}.sub{fill:#8b949e;font-size:11px}.bar-nr{fill:#f85149}.bar-rd{fill:#3fb950}.grid{stroke:#30363d;stroke-width:1}.axis{fill:#8b949e}</style>
+<rect width="640" height="300" fill="#0d1117"/>
+<text x="24" y="28" class="title">Waste rate by trial (lower is better)</text>
+<text x="24" y="46" class="sub">T004 contaminated (sequential shared repo) · T005 clean isolation · T002 short overlap pack</text>
+<rect x="24" y="56" width="12" height="12" class="bar-nr"/>
+<text x="42" y="66" class="axis">No feedback</text>
+<rect x="140" y="56" width="12" height="12" class="bar-rd"/>
+<text x="158" y="66" class="axis">+ Radar</text>
+<rect x="121.3" y="100.0" width="28" height="160.0" class="bar-nr"/>
+<text x="135.3" y="96.0" text-anchor="middle" class="axis">0.33</text>
+<rect x="157.3" y="179.8" width="28" height="80.2" class="bar-rd"/>
+<text x="171.3" y="175.75975975975976" text-anchor="middle" class="axis">0.17</text>
+<text x="153.3" y="278" text-anchor="middle" class="axis">T002</text>
+<rect x="308.0" y="100.0" width="28" height="160.0" class="bar-nr"/>
+<text x="322.0" y="96.0" text-anchor="middle" class="axis">0.59</text>
+<rect x="344.0" y="103.5" width="28" height="156.5" class="bar-rd"/>
+<text x="358.0" y="99.50168350168352" text-anchor="middle" class="axis">0.58</text>
+<text x="340.0" y="278" text-anchor="middle" class="axis">T004</text>
+<rect x="494.7" y="100.0" width="28" height="160.0" class="bar-nr"/>
+<text x="508.7" y="96.0" text-anchor="middle" class="axis">0.78</text>
+<rect x="530.7" y="172.3" width="28" height="87.7" class="bar-rd"/>
+<text x="544.7" y="168.25806451612902" text-anchor="middle" class="axis">0.42</text>
+<text x="526.7" y="278" text-anchor="middle" class="axis">T005</text>
+<line x1="50" y1="260" x2="620" y2="260" class="grid"/>
+</svg>

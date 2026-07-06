@@ -1,0 +1,935 @@
+{
+  "scorer_version": 2,
+  "scored_at": "2026-07-06T19:40:14Z",
+  "trial_base": "trial-004",
+  "no_radar": {
+    "trial_id": "trial-004-no-radar",
+    "group": "no-radar",
+    "arm_wall_minutes": 19.1,
+    "agent_minutes": {
+      "total": 152.96,
+      "productive": 62.14,
+      "wasted": 90.82,
+      "waste_rate": 0.594,
+      "wasted_breakdown": {
+        "abandoned_commits": 76.48,
+        "duplicate_investigations": 14.34,
+        "conflicting_work": 0.0,
+        "merge_repair": 0.0
+      },
+      "method": "parallel_arm_wall",
+      "gaps": [
+        "agent-01: worked without commit \u2014 waste split 50/50 (estimate)",
+        "agent-02: worked without commit \u2014 waste split 50/50 (estimate)",
+        "agent-03: worked without commit \u2014 waste split 50/50 (estimate)",
+        "agent-04: worked without commit \u2014 waste split 50/50 (estimate)",
+        "agent-05: worked without commit \u2014 waste split 50/50 (estimate)",
+        "agent-06: worked without commit \u2014 waste split 50/50 (estimate)",
+        "agent-07: worked without commit \u2014 waste split 50/50 (estimate)",
+        "agent-08: worked without commit \u2014 waste split 50/50 (estimate)"
+      ],
+      "note": "Parallel harness: each agent assigned arm wall duration. Duplicate/conflict waste uses conservative estimates when timing unavailable."
+    },
+    "duplicate_investigations": {
+      "duplicate_investigations": [
+        {
+          "topic": "layout",
+          "agents": [
+            "agent-01",
+            "agent-02"
+          ],
+          "severity": "low",
+          "evidence": [
+            "agent-01: - Bumped the demo banner contrast and corrected its comment (it falsely claimed \"sticky\" \u2014 the element never had stic...",
+            "agent-02: **What I did:** Shipped a persistent, dismissible sticky \"Analyze my resume\" CTA on all 46 guide pages via a single n..."
+          ]
+        },
+        {
+          "topic": "page",
+          "agents": [
+            "agent-07",
+            "agent-08"
+          ],
+          "severity": "low",
+          "evidence": [
+            "agent-07: **Focus area:** Top-of-funnel activation (homepage belief\u2192click) \u2014 deliberately chosen as the least-contended high-va...",
+            "agent-08: **Shipped** (commit `4de757f` on `trial/nr004-agent-08`): surfaced the \"Did you apply?\" tracker prompt for anonymous ..."
+          ]
+        },
+        {
+          "topic": "weekly-digest",
+          "agents": [
+            "agent-05",
+            "agent-06"
+          ],
+          "severity": "medium",
+          "evidence": [
+            "agent-05: - `tsc --noEmit`: my file clean (only pre-existing unrelated error in `weekly-digest/route.test.ts`).",
+            "agent-06: **Caveats:** No node_modules in this worktree (symlinked from the main checkout to run tests). One pre-existing tsc e..."
+          ]
+        }
+      ],
+      "gaps": []
+    },
+    "coordination_leverage": {
+      "coordination_leverage": {
+        "prior_context_utilization": 12,
+        "prior_context_same_arm": 8,
+        "compounding_events": 12,
+        "compounding_by_kind": {
+          "validated_or_extended_work": 10,
+          "reused_prior_discovery": 2
+        },
+        "prior_context_by_source": {
+          "cross_arm": 1,
+          "historical_repo": 3,
+          "same_arm_current_trial": 8
+        },
+        "complementary_changes": 1,
+        "separation_events": 0
+      },
+      "prior_context_details": [
+        {
+          "agent": "agent-01",
+          "kind": "validated_or_extended_work",
+          "source": "cross_arm",
+          "signal": "validated",
+          "excerpt": "the worktree; I installed deps to run real checks.)  ## Prior work I built on / validated  I finished someone's abandoned 80%-done work: they diagnosed the funn"
+        },
+        {
+          "agent": "agent-02",
+          "kind": "reused_prior_discovery",
+          "source": "historical_repo",
+          "signal": "Reused",
+          "excerpt": "e slug helper pass, `next build` exits 0.  **Prior work built on / validated:** Reused `SmartAnalyzeLink` (in-flight-pipeline-aware routing), the `GuideCTA`/ana"
+        },
+        {
+          "agent": "agent-02",
+          "kind": "validated_or_extended_work",
+          "source": "historical_repo",
+          "signal": "validated",
+          "excerpt": "tests for the slug helper pass, `next build` exits 0.  **Prior work built on / validated:** Reused `SmartAnalyzeLink` (in-flight-pipeline-aware routing), the `"
+        },
+        {
+          "agent": "agent-02",
+          "kind": "validated_or_extended_work",
+          "source": "historical_repo",
+          "signal": "Validated",
+          "excerpt": "de_cta_clicked` conventions, and the `FloatingEmailCTA` scroll+dismiss pattern. Validated the earlier homepage upload-first rework (its rationale comment cites"
+        },
+        {
+          "agent": "agent-03",
+          "kind": "validated_or_extended_work",
+          "source": "same_arm_current_trial",
+          "signal": "Extended the",
+          "excerpt": "int errors; the single project tsc error predates me.  **Built on prior work:** Extended the newest area of the codebase \u2014 the attention-slot arbiter (commits d"
+        },
+        {
+          "agent": "agent-03",
+          "kind": "validated_or_extended_work",
+          "source": "same_arm_current_trial",
+          "signal": "validated",
+          "excerpt": "ered the apply-confirmation toast's timeout behavior; this finishes that gap. I validated the arbiter's design in passing rather than duplicating it.  **Coordin"
+        },
+        {
+          "agent": "agent-04",
+          "kind": "reused_prior_discovery",
+          "source": "same_arm_current_trial",
+          "signal": "Reused",
+          "excerpt": "0% worse \u2014 most sensitive to form friction.  ## What I built on / validated - **Reused prior discoveries** instead of re-investigating: `docs/ACTIVATION_BACKLOG"
+        },
+        {
+          "agent": "agent-04",
+          "kind": "validated_or_extended_work",
+          "source": "same_arm_current_trial",
+          "signal": "validated",
+          "excerpt": "c) converts ~40% worse \u2014 most sensitive to form friction.  ## What I built on / validated - **Reused prior discoveries** instead of re-investigating: `docs/ACTI"
+        },
+        {
+          "agent": "agent-04",
+          "kind": "validated_or_extended_work",
+          "source": "same_arm_current_trial",
+          "signal": "extended the",
+          "excerpt": "with \"Continue with Google\"; the modal was the one surface that inverted it. I extended the same pattern rather than inventing a new one. - **Avoided overlap**"
+        },
+        {
+          "agent": "agent-06",
+          "kind": "validated_or_extended_work",
+          "source": "same_arm_current_trial",
+          "signal": "validated",
+          "excerpt": "2026-06-18 nudge redesign \u2014 its pre-fix Android counts are inflated).  **What I validated/built on:** Prior sessions' funnel memories (`funnel-leaks-2026-07`, `"
+        },
+        {
+          "agent": "agent-07",
+          "kind": "validated_or_extended_work",
+          "source": "same_arm_current_trial",
+          "signal": "validated",
+          "excerpt": "s HTTP 200 with the CTA and no runtime errors via the dev server.  **Built on / validated prior work:** Found parallel agents had already logged the upload leak"
+        },
+        {
+          "agent": "agent-08",
+          "kind": "validated_or_extended_work",
+          "source": "same_arm_current_trial",
+          "signal": "validated",
+          "excerpt": "files; eslint 0 errors (only pre-existing dep warnings).  ## What I built on / validated  Discovered two parallel sessions' shared-memory notes and confirmed l"
+        }
+      ],
+      "compounding_details": [
+        {
+          "agent": "agent-01",
+          "kind": "validated_or_extended_work",
+          "source": "cross_arm",
+          "signal": "validated",
+          "excerpt": "the worktree; I installed deps to run real checks.)  ## Prior work I built on / validated  I finished someone's abandoned 80%-done work: they diagnosed the funn"
+        },
+        {
+          "agent": "agent-02",
+          "kind": "reused_prior_discovery",
+          "source": "historical_repo",
+          "signal": "Reused",
+          "excerpt": "e slug helper pass, `next build` exits 0.  **Prior work built on / validated:** Reused `SmartAnalyzeLink` (in-flight-pipeline-aware routing), the `GuideCTA`/ana"
+        },
+        {
+          "agent": "agent-02",
+          "kind": "validated_or_extended_work",
+          "source": "historical_repo",
+          "signal": "validated",
+          "excerpt": "tests for the slug helper pass, `next build` exits 0.  **Prior work built on / validated:** Reused `SmartAnalyzeLink` (in-flight-pipeline-aware routing), the `"
+        },
+        {
+          "agent": "agent-02",
+          "kind": "validated_or_extended_work",
+          "source": "historical_repo",
+          "signal": "Validated",
+          "excerpt": "de_cta_clicked` conventions, and the `FloatingEmailCTA` scroll+dismiss pattern. Validated the earlier homepage upload-first rework (its rationale comment cites"
+        },
+        {
+          "agent": "agent-03",
+          "kind": "validated_or_extended_work",
+          "source": "same_arm_current_trial",
+          "signal": "Extended the",
+          "excerpt": "int errors; the single project tsc error predates me.  **Built on prior work:** Extended the newest area of the codebase \u2014 the attention-slot arbiter (commits d"
+        },
+        {
+          "agent": "agent-03",
+          "kind": "validated_or_extended_work",
+          "source": "same_arm_current_trial",
+          "signal": "validated",
+          "excerpt": "ered the apply-confirmation toast's timeout behavior; this finishes that gap. I validated the arbiter's design in passing rather than duplicating it.  **Coordin"
+        },
+        {
+          "agent": "agent-04",
+          "kind": "reused_prior_discovery",
+          "source": "same_arm_current_trial",
+          "signal": "Reused",
+          "excerpt": "0% worse \u2014 most sensitive to form friction.  ## What I built on / validated - **Reused prior discoveries** instead of re-investigating: `docs/ACTIVATION_BACKLOG"
+        },
+        {
+          "agent": "agent-04",
+          "kind": "validated_or_extended_work",
+          "source": "same_arm_current_trial",
+          "signal": "validated",
+          "excerpt": "c) converts ~40% worse \u2014 most sensitive to form friction.  ## What I built on / validated - **Reused prior discoveries** instead of re-investigating: `docs/ACTI"
+        },
+        {
+          "agent": "agent-04",
+          "kind": "validated_or_extended_work",
+          "source": "same_arm_current_trial",
+          "signal": "extended the",
+          "excerpt": "with \"Continue with Google\"; the modal was the one surface that inverted it. I extended the same pattern rather than inventing a new one. - **Avoided overlap**"
+        },
+        {
+          "agent": "agent-06",
+          "kind": "validated_or_extended_work",
+          "source": "same_arm_current_trial",
+          "signal": "validated",
+          "excerpt": "2026-06-18 nudge redesign \u2014 its pre-fix Android counts are inflated).  **What I validated/built on:** Prior sessions' funnel memories (`funnel-leaks-2026-07`, `"
+        },
+        {
+          "agent": "agent-07",
+          "kind": "validated_or_extended_work",
+          "source": "same_arm_current_trial",
+          "signal": "validated",
+          "excerpt": "s HTTP 200 with the CTA and no runtime errors via the dev server.  **Built on / validated prior work:** Found parallel agents had already logged the upload leak"
+        },
+        {
+          "agent": "agent-08",
+          "kind": "validated_or_extended_work",
+          "source": "same_arm_current_trial",
+          "signal": "validated",
+          "excerpt": "files; eslint 0 errors (only pre-existing dep warnings).  ## What I built on / validated  Discovered two parallel sessions' shared-memory notes and confirmed l"
+        }
+      ],
+      "separation_details": [],
+      "complementary_details": [
+        {
+          "kind": "coverage_reference",
+          "agents": [
+            "agent-01",
+            "agent-02"
+          ],
+          "topic": "layout"
+        }
+      ],
+      "gaps": [],
+      "role_boundary_signals": 0
+    },
+    "territory_spread": {
+      "unique_areas": [
+        "analytics",
+        "apply",
+        "apply-prompt-timing.ts",
+        "apply-prompt.ts",
+        "guides",
+        "homepage-conversion",
+        "hooks",
+        "mobile",
+        "state-attention",
+        "test-infrastructure",
+        "upload-onboarding"
+      ],
+      "unique_area_count": 11,
+      "agents": 8,
+      "territory_spread": 1.375,
+      "agent_areas": {
+        "agent-01": [
+          "analytics",
+          "homepage-conversion",
+          "hooks",
+          "test-infrastructure"
+        ],
+        "agent-02": [
+          "analytics",
+          "guides",
+          "test-infrastructure"
+        ],
+        "agent-03": [
+          "apply",
+          "apply-prompt-timing.ts",
+          "state-attention",
+          "test-infrastructure"
+        ],
+        "agent-04": [
+          "homepage-conversion",
+          "state-attention",
+          "upload-onboarding"
+        ],
+        "agent-05": [
+          "state-attention",
+          "test-infrastructure",
+          "upload-onboarding"
+        ],
+        "agent-06": [
+          "mobile",
+          "state-attention"
+        ],
+        "agent-07": [],
+        "agent-08": [
+          "apply-prompt.ts",
+          "homepage-conversion",
+          "state-attention",
+          "test-infrastructure"
+        ]
+      },
+      "gaps": [
+        "agent-07: no work area inferred"
+      ],
+      "diagnostic_only": true
+    },
+    "organizational_waste": {
+      "duplicate_investigations": 3,
+      "abandoned_commits": 0,
+      "merge_conflicts": 0,
+      "overlap_files": 0,
+      "waste_rate": 0.594,
+      "wasted_minutes": 90.82
+    },
+    "cognitive_economics": {
+      "cognitive_duplication_rate": 0.375,
+      "novel_contribution_rate": 0.85,
+      "investigation_count": 8,
+      "duplicate_topic_count": 3,
+      "prior_context_utilization": 12,
+      "prior_context_same_arm": 8,
+      "prior_context_utilization_rate": 1.5,
+      "prior_context_same_arm_rate": 1.0,
+      "prior_context_by_kind": {
+        "validated_or_extended_work": 10,
+        "reused_prior_discovery": 2
+      },
+      "prior_context_by_source": {
+        "cross_arm": 1,
+        "historical_repo": 3,
+        "same_arm_current_trial": 8
+      },
+      "compounding_events": 12,
+      "separation_events": 0,
+      "lost_work_signal": 90.82,
+      "output_per_agent_hour": 0.0,
+      "waste_rate": 0.594,
+      "trial_pillars": {
+        "reduced_duplicate_cognition": 0.375,
+        "reduced_lost_work": 0.594,
+        "prior_context_utilization": 1.0,
+        "prior_context_same_arm": 8
+      },
+      "note": "Compounding = informed work (reuse, inspect, validate, continue, avoid failed paths). Not staying away from occupied areas. Overlap is fine; uninformed duplication is not."
+    },
+    "friction": {
+      "files_changed": 14,
+      "overlap_files": 0,
+      "collision_rate": 0.0,
+      "merge_conflicts": 0,
+      "proposed_commits": 0,
+      "merged_commits": 0
+    },
+    "legacy_efficiency": 0.0,
+    "convergence_score": 0.0621,
+    "convergence_score_components": {
+      "useful_outputs": 3.5,
+      "state_feedback_leverage": 8,
+      "duplicate_work": 2.0,
+      "merge_cost": 0.0
+    },
+    "coordination_score": 0.0621,
+    "coordination_score_components": {
+      "useful_outputs": 3.5,
+      "coordination_leverage": 8,
+      "duplicate_work": 2.0,
+      "merge_cost": 0.0
+    },
+    "measurement_gaps": [
+      "agent-01: worked without commit \u2014 waste split 50/50 (estimate)",
+      "agent-02: worked without commit \u2014 waste split 50/50 (estimate)",
+      "agent-03: worked without commit \u2014 waste split 50/50 (estimate)",
+      "agent-04: worked without commit \u2014 waste split 50/50 (estimate)",
+      "agent-05: worked without commit \u2014 waste split 50/50 (estimate)",
+      "agent-06: worked without commit \u2014 waste split 50/50 (estimate)",
+      "agent-07: worked without commit \u2014 waste split 50/50 (estimate)",
+      "agent-08: worked without commit \u2014 waste split 50/50 (estimate)"
+    ]
+  },
+  "radar": {
+    "trial_id": "trial-004-radar",
+    "group": "radar",
+    "arm_wall_minutes": 10.8,
+    "agent_minutes": {
+      "total": 86.64,
+      "productive": 36.28,
+      "wasted": 50.36,
+      "waste_rate": 0.581,
+      "wasted_breakdown": {
+        "abandoned_commits": 0.0,
+        "duplicate_investigations": 16.25,
+        "conflicting_work": 1.62,
+        "merge_repair": 32.49
+      },
+      "method": "parallel_arm_wall",
+      "gaps": [],
+      "note": "Parallel harness: each agent assigned arm wall duration. Duplicate/conflict waste uses conservative estimates when timing unavailable."
+    },
+    "duplicate_investigations": {
+      "duplicate_investigations": [
+        {
+          "topic": "analytics",
+          "agents": [
+            "agent-03",
+            "agent-05"
+          ],
+          "severity": "low",
+          "evidence": []
+        },
+        {
+          "topic": "apply-prompt",
+          "agents": [
+            "agent-04",
+            "agent-07"
+          ],
+          "severity": "low",
+          "evidence": [
+            "agent-07: **Shipped:** commit `eaf406a` on `trial/r004-agent-07` \u2014 `fix(activation): surface \"Did you apply?\" tracker prompt fo..."
+          ]
+        },
+        {
+          "topic": "attention-slot",
+          "agents": [
+            "agent-05",
+            "agent-07"
+          ],
+          "severity": "low",
+          "evidence": [
+            "agent-05: - **Avoided crowded lanes**: left leak #2 (results\u2192signup) to agent-016a + the attention-slot work, and flagged that ..."
+          ]
+        },
+        {
+          "topic": "auth",
+          "agents": [
+            "agent-03",
+            "agent-04"
+          ],
+          "severity": "medium",
+          "evidence": [
+            "agent-03: **Commit `b7d4928`** on `trial/r004-agent-03`: reordered `WaitSignupModal` (the anonymous signup capture shown at 30s...",
+            "agent-04: The post-results signup modal \u2014 the surface *at* the cliff \u2014 led with a 3-field email/password form as the **primary*..."
+          ]
+        },
+        {
+          "topic": "page",
+          "agents": [
+            "agent-06",
+            "agent-07",
+            "agent-08"
+          ],
+          "severity": "high",
+          "evidence": [
+            "agent-06: - Desktop `upload_page_viewed \u2192 upload_file_selected`: **38.7% abandon** (111\u219268) \u2014 and desktop had **no** proof-of-o...",
+            "agent-07: - I confirmed the bug is **live in my base (1d6695f)**: in `matches/page.tsx` `handleApplyClick`, both anonymous bran...",
+            "agent-08: Added a mid-page CTA after the homepage \"How it works\" section (`src/app/page.tsx`), committed as `7ab910c` on branch..."
+          ]
+        },
+        {
+          "topic": "uploadpageclient",
+          "agents": [
+            "agent-01",
+            "agent-02",
+            "agent-05",
+            "agent-06"
+          ],
+          "severity": "high",
+          "evidence": [
+            "agent-01: **Change:** `feat(upload)` on `trial/r004-agent-01` (`5c63103`) \u2014 extended the \"Example result\" proof-of-output tile ..."
+          ]
+        }
+      ],
+      "gaps": []
+    },
+    "coordination_leverage": {
+      "coordination_leverage": {
+        "prior_context_utilization": 22,
+        "prior_context_same_arm": 11,
+        "compounding_events": 22,
+        "compounding_by_kind": {
+          "validated_or_extended_work": 14,
+          "reused_prior_discovery": 6,
+          "inspected_before_starting": 2
+        },
+        "prior_context_by_source": {
+          "same_arm_current_trial": 11,
+          "cross_arm": 11
+        },
+        "complementary_changes": 6,
+        "separation_events": 0
+      },
+      "prior_context_details": [
+        {
+          "agent": "agent-01",
+          "kind": "validated_or_extended_work",
+          "source": "same_arm_current_trial",
+          "signal": "extended the",
+          "excerpt": "ile-select).  **Change:** `feat(upload)` on `trial/r004-agent-01` (`5c63103`) \u2014 extended the \"Example result\" proof-of-output tile in `UploadPageClient.tsx` fro"
+        },
+        {
+          "agent": "agent-01",
+          "kind": "validated_or_extended_work",
+          "source": "same_arm_current_trial",
+          "signal": "validated",
+          "excerpt": "ment itself blames a real desktop bounce on exactly that.  ## What I built on / validated This is where the shared-memory test bit me and then paid off. I imple"
+        },
+        {
+          "agent": "agent-02",
+          "kind": "reused_prior_discovery",
+          "source": "cross_arm",
+          "signal": "Reused",
+          "excerpt": "lready had this tile.  ## Prior work I built on (the point of the exercise) - **Reused a completed-but-unmerged fix.** A parallel-trial agent (`trial/nr004-agen"
+        },
+        {
+          "agent": "agent-02",
+          "kind": "validated_or_extended_work",
+          "source": "cross_arm",
+          "signal": "validated",
+          "excerpt": "ine (1d6695f) \u2014 it only ever lived on a side branch. Rather than reinvent it, I validated it and cherry-picked (`-x`) to preserve provenance. - **Validated befo"
+        },
+        {
+          "agent": "agent-02",
+          "kind": "validated_or_extended_work",
+          "source": "cross_arm",
+          "signal": "Validated",
+          "excerpt": "einvent it, I validated it and cherry-picked (`-x`) to preserve provenance. - **Validated before landing:** correct placement (tile sits above both desktop drop"
+        },
+        {
+          "agent": "agent-03",
+          "kind": "validated_or_extended_work",
+          "source": "cross_arm",
+          "signal": "validated",
+          "excerpt": "\"Sign up free\" link to the email form, no inline OAuth).  ## What I built on / validated (radar + git history paid off repeatedly) Radar and cross-branch git h"
+        },
+        {
+          "agent": "agent-03",
+          "kind": "validated_or_extended_work",
+          "source": "cross_arm",
+          "signal": "extended the",
+          "excerpt": "cking them. **WaitSignupModal had no fix on any branch** \u2014 genuinely net-new. I extended the *established* codebase pattern (`EvidenceSignupNudge`'s \"Continue w"
+        },
+        {
+          "agent": "agent-04",
+          "kind": "inspected_before_starting",
+          "source": "same_arm_current_trial",
+          "signal": "Radar board",
+          "excerpt": "Recorded the finding in memory (`post-results-modal-oauth-first.md`) and on the Radar board.  **Deliberately did NOT duplicate:** the RED test-suite fixes (agen"
+        },
+        {
+          "agent": "agent-04",
+          "kind": "validated_or_extended_work",
+          "source": "same_arm_current_trial",
+          "signal": "validated",
+          "excerpt": "is what let me move fast instead of re-deriving it:  **Prior work I built on / validated:** - Team memory `seeker-funnel-cliff` (\"OAuth >> email; lead signup s"
+        },
+        {
+          "agent": "agent-05",
+          "kind": "reused_prior_discovery",
+          "source": "cross_arm",
+          "signal": "Reused",
+          "excerpt": "sting, pre-verified fixes and re-landed them.  ## What I built on / validated - Reused the funnel diagnosis in `funnel-leaks-2026-07`, `upload-activation-leak`,"
+        },
+        {
+          "agent": "agent-05",
+          "kind": "validated_or_extended_work",
+          "source": "cross_arm",
+          "signal": "validated",
+          "excerpt": "ad of re-investigating leak #3 (which the memory files thoroughly diagnosed), I validated the pre-existing, pre-verified fixes and re-landed them.  ## What I bu"
+        },
+        {
+          "agent": "agent-05",
+          "kind": "validated_or_extended_work",
+          "source": "cross_arm",
+          "signal": "validated",
+          "excerpt": "the pre-existing, pre-verified fixes and re-landed them.  ## What I built on / validated - Reused the funnel diagnosis in `funnel-leaks-2026-07`, `upload-activ"
+        },
+        {
+          "agent": "agent-05",
+          "kind": "validated_or_extended_work",
+          "source": "cross_arm",
+          "signal": "Validated",
+          "excerpt": "r-activation-funnel-2026-07` \u2014 did zero re-investigation of the leak ranking. - Validated (not blindly copied) the mobile fix: ran its pure helper logic standal"
+        },
+        {
+          "agent": "agent-06",
+          "kind": "reused_prior_discovery",
+          "source": "same_arm_current_trial",
+          "signal": "prior discovery",
+          "excerpt": "o Radar so no one builds a fifth and the team pivots to merging.  **Built on:** prior discovery in `upload-activation-leak` memory (the leak itself), and valida"
+        },
+        {
+          "agent": "agent-06",
+          "kind": "inspected_before_starting",
+          "source": "same_arm_current_trial",
+          "signal": "Radar board",
+          "excerpt": "ct lived only in the user's cross-session memory \u2014 it was **never posted to the Radar board**. So four parallel agents each paid the same investigation cost. I"
+        }
+      ],
+      "compounding_details": [
+        {
+          "agent": "agent-01",
+          "kind": "validated_or_extended_work",
+          "source": "same_arm_current_trial",
+          "signal": "extended the",
+          "excerpt": "ile-select).  **Change:** `feat(upload)` on `trial/r004-agent-01` (`5c63103`) \u2014 extended the \"Example result\" proof-of-output tile in `UploadPageClient.tsx` fro"
+        },
+        {
+          "agent": "agent-01",
+          "kind": "validated_or_extended_work",
+          "source": "same_arm_current_trial",
+          "signal": "validated",
+          "excerpt": "ment itself blames a real desktop bounce on exactly that.  ## What I built on / validated This is where the shared-memory test bit me and then paid off. I imple"
+        },
+        {
+          "agent": "agent-02",
+          "kind": "reused_prior_discovery",
+          "source": "cross_arm",
+          "signal": "Reused",
+          "excerpt": "lready had this tile.  ## Prior work I built on (the point of the exercise) - **Reused a completed-but-unmerged fix.** A parallel-trial agent (`trial/nr004-agen"
+        },
+        {
+          "agent": "agent-02",
+          "kind": "validated_or_extended_work",
+          "source": "cross_arm",
+          "signal": "validated",
+          "excerpt": "ine (1d6695f) \u2014 it only ever lived on a side branch. Rather than reinvent it, I validated it and cherry-picked (`-x`) to preserve provenance. - **Validated befo"
+        },
+        {
+          "agent": "agent-02",
+          "kind": "validated_or_extended_work",
+          "source": "cross_arm",
+          "signal": "Validated",
+          "excerpt": "einvent it, I validated it and cherry-picked (`-x`) to preserve provenance. - **Validated before landing:** correct placement (tile sits above both desktop drop"
+        },
+        {
+          "agent": "agent-03",
+          "kind": "validated_or_extended_work",
+          "source": "cross_arm",
+          "signal": "validated",
+          "excerpt": "\"Sign up free\" link to the email form, no inline OAuth).  ## What I built on / validated (radar + git history paid off repeatedly) Radar and cross-branch git h"
+        },
+        {
+          "agent": "agent-03",
+          "kind": "validated_or_extended_work",
+          "source": "cross_arm",
+          "signal": "extended the",
+          "excerpt": "cking them. **WaitSignupModal had no fix on any branch** \u2014 genuinely net-new. I extended the *established* codebase pattern (`EvidenceSignupNudge`'s \"Continue w"
+        },
+        {
+          "agent": "agent-04",
+          "kind": "inspected_before_starting",
+          "source": "same_arm_current_trial",
+          "signal": "Radar board",
+          "excerpt": "Recorded the finding in memory (`post-results-modal-oauth-first.md`) and on the Radar board.  **Deliberately did NOT duplicate:** the RED test-suite fixes (agen"
+        },
+        {
+          "agent": "agent-04",
+          "kind": "validated_or_extended_work",
+          "source": "same_arm_current_trial",
+          "signal": "validated",
+          "excerpt": "is what let me move fast instead of re-deriving it:  **Prior work I built on / validated:** - Team memory `seeker-funnel-cliff` (\"OAuth >> email; lead signup s"
+        },
+        {
+          "agent": "agent-05",
+          "kind": "reused_prior_discovery",
+          "source": "cross_arm",
+          "signal": "Reused",
+          "excerpt": "sting, pre-verified fixes and re-landed them.  ## What I built on / validated - Reused the funnel diagnosis in `funnel-leaks-2026-07`, `upload-activation-leak`,"
+        },
+        {
+          "agent": "agent-05",
+          "kind": "validated_or_extended_work",
+          "source": "cross_arm",
+          "signal": "validated",
+          "excerpt": "ad of re-investigating leak #3 (which the memory files thoroughly diagnosed), I validated the pre-existing, pre-verified fixes and re-landed them.  ## What I bu"
+        },
+        {
+          "agent": "agent-05",
+          "kind": "validated_or_extended_work",
+          "source": "cross_arm",
+          "signal": "validated",
+          "excerpt": "the pre-existing, pre-verified fixes and re-landed them.  ## What I built on / validated - Reused the funnel diagnosis in `funnel-leaks-2026-07`, `upload-activ"
+        },
+        {
+          "agent": "agent-05",
+          "kind": "validated_or_extended_work",
+          "source": "cross_arm",
+          "signal": "Validated",
+          "excerpt": "r-activation-funnel-2026-07` \u2014 did zero re-investigation of the leak ranking. - Validated (not blindly copied) the mobile fix: ran its pure helper logic standal"
+        },
+        {
+          "agent": "agent-06",
+          "kind": "reused_prior_discovery",
+          "source": "same_arm_current_trial",
+          "signal": "prior discovery",
+          "excerpt": "o Radar so no one builds a fifth and the team pivots to merging.  **Built on:** prior discovery in `upload-activation-leak` memory (the leak itself), and valida"
+        },
+        {
+          "agent": "agent-06",
+          "kind": "inspected_before_starting",
+          "source": "same_arm_current_trial",
+          "signal": "Radar board",
+          "excerpt": "ct lived only in the user's cross-session memory \u2014 it was **never posted to the Radar board**. So four parallel agents each paid the same investigation cost. I"
+        }
+      ],
+      "separation_details": [],
+      "complementary_details": [
+        {
+          "kind": "same_component_files",
+          "agents": [
+            "agent-01",
+            "agent-02"
+          ],
+          "files": [
+            "src/app/(app)/upload/UploadPageClient.tsx"
+          ]
+        },
+        {
+          "kind": "same_component_files",
+          "agents": [
+            "agent-01",
+            "agent-05"
+          ],
+          "files": [
+            "src/app/(app)/upload/UploadPageClient.tsx"
+          ]
+        },
+        {
+          "kind": "same_component_files",
+          "agents": [
+            "agent-01",
+            "agent-06"
+          ],
+          "files": [
+            "src/app/(app)/upload/UploadPageClient.tsx"
+          ]
+        },
+        {
+          "kind": "same_component_files",
+          "agents": [
+            "agent-02",
+            "agent-05"
+          ],
+          "files": [
+            "src/app/(app)/upload/UploadPageClient.tsx"
+          ]
+        },
+        {
+          "kind": "same_component_files",
+          "agents": [
+            "agent-02",
+            "agent-06"
+          ],
+          "files": [
+            "src/app/(app)/upload/UploadPageClient.tsx"
+          ]
+        },
+        {
+          "kind": "same_component_files",
+          "agents": [
+            "agent-05",
+            "agent-06"
+          ],
+          "files": [
+            "src/app/(app)/upload/UploadPageClient.tsx"
+          ]
+        }
+      ],
+      "gaps": []
+    },
+    "territory_spread": {
+      "unique_areas": [
+        "apply-prompt.ts",
+        "auth",
+        "homepage-conversion",
+        "mobile",
+        "page.tsx",
+        "state-attention",
+        "test-infrastructure",
+        "upload-onboarding"
+      ],
+      "unique_area_count": 8,
+      "agents": 8,
+      "territory_spread": 1.0,
+      "agent_areas": {
+        "agent-01": [
+          "upload-onboarding"
+        ],
+        "agent-02": [
+          "upload-onboarding"
+        ],
+        "agent-03": [
+          "upload-onboarding"
+        ],
+        "agent-04": [
+          "auth",
+          "homepage-conversion"
+        ],
+        "agent-05": [
+          "mobile",
+          "state-attention",
+          "upload-onboarding"
+        ],
+        "agent-06": [
+          "upload-onboarding"
+        ],
+        "agent-07": [
+          "apply-prompt.ts",
+          "homepage-conversion",
+          "test-infrastructure"
+        ],
+        "agent-08": [
+          "page.tsx"
+        ]
+      },
+      "gaps": [],
+      "diagnostic_only": true
+    },
+    "organizational_waste": {
+      "duplicate_investigations": 6,
+      "abandoned_commits": 0,
+      "merge_conflicts": 3,
+      "overlap_files": 1,
+      "waste_rate": 0.581,
+      "wasted_minutes": 50.36
+    },
+    "cognitive_economics": {
+      "cognitive_duplication_rate": 0.75,
+      "novel_contribution_rate": 0.917,
+      "investigation_count": 8,
+      "duplicate_topic_count": 6,
+      "prior_context_utilization": 22,
+      "prior_context_same_arm": 11,
+      "prior_context_utilization_rate": 2.75,
+      "prior_context_same_arm_rate": 1.375,
+      "prior_context_by_kind": {
+        "validated_or_extended_work": 14,
+        "reused_prior_discovery": 6,
+        "inspected_before_starting": 2
+      },
+      "prior_context_by_source": {
+        "same_arm_current_trial": 11,
+        "cross_arm": 11
+      },
+      "compounding_events": 22,
+      "separation_events": 0,
+      "lost_work_signal": 50.36,
+      "output_per_agent_hour": 5.54,
+      "waste_rate": 0.581,
+      "trial_pillars": {
+        "reduced_duplicate_cognition": 0.75,
+        "reduced_lost_work": 0.581,
+        "prior_context_utilization": 1.375,
+        "prior_context_same_arm": 11
+      },
+      "note": "Compounding = informed work (reuse, inspect, validate, continue, avoid failed paths). Not staying away from occupied areas. Overlap is fine; uninformed duplication is not."
+    },
+    "friction": {
+      "files_changed": 10,
+      "overlap_files": 1,
+      "collision_rate": 0.1,
+      "merge_conflicts": 3,
+      "proposed_commits": 8,
+      "merged_commits": 8
+    },
+    "legacy_efficiency": 0.72,
+    "convergence_score": 0.1096,
+    "convergence_score_components": {
+      "useful_outputs": 10.5,
+      "state_feedback_leverage": 11,
+      "duplicate_work": 5.5,
+      "merge_cost": 6.5
+    },
+    "coordination_score": 0.1096,
+    "coordination_score_components": {
+      "useful_outputs": 10.5,
+      "coordination_leverage": 11,
+      "duplicate_work": 5.5,
+      "merge_cost": 6.5
+    },
+    "measurement_gaps": []
+  },
+  "comparison": {
+    "convergence_score_lift_pct": 0.765,
+    "coordination_score_lift_pct": 0.765,
+    "legacy_efficiency_lift_pct": null,
+    "waste_rate_delta": -0.013,
+    "territory_spread_delta": -0.375,
+    "duplicate_investigations_delta": 3,
+    "cognitive_duplication_rate_delta": 0.375,
+    "compounding_events_delta": 10,
+    "prior_context_utilization_delta": 10,
+    "prior_context_same_arm_delta": 3
+  },
+  "scorecard": {
+    "headline": {
+      "no_radar_efficiency": 0.0,
+      "radar_efficiency": 0.72,
+      "radar_lift_pct": null,
+      "convergence_score_lift_pct": 0.765,
+      "coordination_score_lift_pct": 0.765
+    }
+  }
+}

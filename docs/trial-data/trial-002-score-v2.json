@@ -1,0 +1,397 @@
+{
+  "scorer_version": 2,
+  "scored_at": "2026-07-06T18:36:49Z",
+  "trial_base": "trial-002",
+  "no_radar": {
+    "trial_id": "trial-002-no-radar",
+    "group": "no-radar",
+    "arm_wall_minutes": 5.3,
+    "agent_minutes": {
+      "total": 15.81,
+      "productive": 10.55,
+      "wasted": 5.26,
+      "waste_rate": 0.333,
+      "wasted_breakdown": {
+        "abandoned_commits": 2.635,
+        "duplicate_investigations": 2.63,
+        "conflicting_work": 0.0,
+        "merge_repair": 0.0
+      },
+      "method": "parallel_arm_wall",
+      "gaps": [
+        "tests: worked without commit \u2014 waste split 50/50 (estimate)"
+      ],
+      "note": "Parallel harness: each agent assigned arm wall duration. Duplicate/conflict waste uses conservative estimates when timing unavailable."
+    },
+    "duplicate_investigations": {
+      "duplicate_investigations": [
+        {
+          "topic": "attention-slot",
+          "agents": [
+            "audit",
+            "tests"
+          ],
+          "severity": "low",
+          "evidence": [
+            "tests: - Nothing in the recent attention-slot / results-prompt area (likely another agent's scope).",
+            "audit: Test suite, UX/results code, `src/state/*`, `src/components/*`, the attention-slot arbiter work from recent commits, ..."
+          ]
+        },
+        {
+          "topic": "weekly-digest",
+          "agents": [
+            "audit",
+            "tests"
+          ],
+          "severity": "medium",
+          "evidence": [
+            "tests: 2. **`src/app/api/cron/weekly-digest/route.test.ts`** \u2014 fixed a *pre-existing* `tsc` error (`mock.calls[0]` possibly-...",
+            "audit: The guard was `if (secret && !timingSafeEqual(...))`. Since `getCronSecret()` returns `undefined` when `CRON_SECRET` ..."
+          ]
+        }
+      ],
+      "gaps": []
+    },
+    "coordination_leverage": {
+      "coordination_leverage": {
+        "compounding_events": 0,
+        "handoffs": 0,
+        "complementary_changes": 0,
+        "separation_events": 5,
+        "avoidance_events": 5
+      },
+      "compounding_details": [],
+      "avoidance_details": [
+        {
+          "agent": "feature",
+          "signal": "did NOT touch",
+          "excerpt": "vy; risks colliding with the parallel agents) or run the dev server.  ## What I did NOT touch - No test files (test-suite cleanup is out of my role). - No chang"
+        },
+        {
+          "agent": "feature",
+          "signal": "Not in my scope",
+          "excerpt": "ppears to be **dead code** \u2014 it's not imported anywhere (only self-references). Not in my scope to delete."
+        },
+        {
+          "agent": "tests",
+          "signal": "did NOT touch",
+          "excerpt": "7 skipped (was 1 failed) - `npx tsc --noEmit` \u2192 **0 errors** (was 1)  ## What I did NOT touch - No product UX / components / routes. - Nothing in the recent att"
+        },
+        {
+          "agent": "audit",
+          "signal": "leaving this endpoint \u2014 which invokes Anthropic and emails the founder \u2014 publicly triggerable (token burn + spam). The three sibling crons (`followup`, `indexnow`, `job-alerts`) all fail **closed** (500 when unset); `weekly-digest` also fails closed. Fixed to",
+          "excerpt": "/lib/cron-auth.ts:2`), an empty/missing secret skipped the auth check entirely, leaving this endpoint \u2014 which invokes Anthropic and emails the founder \u2014 publicl"
+        },
+        {
+          "agent": "audit",
+          "signal": "Did NOT touch",
+          "excerpt": "ind module 'next/server'`. My edit is safe by inspection (no new symbols).  ### Did NOT touch Test suite, UX/results code, `src/state/*`, `src/components/*`, th"
+        }
+      ],
+      "handoff_details": [],
+      "complementary_details": [],
+      "gaps": [],
+      "role_boundary_signals": 5
+    },
+    "territory_spread": {
+      "unique_areas": [
+        "analytics",
+        "auth",
+        "backend-api",
+        "homepage-conversion",
+        "state-attention",
+        "test-infrastructure"
+      ],
+      "unique_area_count": 6,
+      "agents": 3,
+      "territory_spread": 2.0,
+      "agent_areas": {
+        "feature": [
+          "homepage-conversion"
+        ],
+        "tests": [
+          "analytics",
+          "backend-api",
+          "state-attention",
+          "test-infrastructure"
+        ],
+        "audit": [
+          "auth",
+          "backend-api",
+          "state-attention",
+          "test-infrastructure"
+        ]
+      },
+      "gaps": [],
+      "diagnostic_only": true
+    },
+    "organizational_waste": {
+      "duplicate_investigations": 2,
+      "abandoned_commits": 0,
+      "merge_conflicts": 0,
+      "overlap_files": 0,
+      "waste_rate": 0.333,
+      "wasted_minutes": 5.26
+    },
+    "cognitive_economics": {
+      "cognitive_duplication_rate": 0.667,
+      "novel_contribution_rate": 0.882,
+      "investigation_count": 3,
+      "duplicate_topic_count": 2,
+      "compounding_events": 0,
+      "separation_events": 5,
+      "output_per_agent_hour": 7.59,
+      "waste_rate": 0.333,
+      "note": "Headline: same agents + same time \u2192 less rediscovery, more compounding. Territory overlap is not penalized; repeated discoveries are."
+    },
+    "friction": {
+      "files_changed": 4,
+      "overlap_files": 0,
+      "collision_rate": 0.0,
+      "merge_conflicts": 0,
+      "proposed_commits": 2,
+      "merged_commits": 2
+    },
+    "legacy_efficiency": 0.5,
+    "coordination_score": 0.0949,
+    "coordination_score_components": {
+      "useful_outputs": 3.0,
+      "coordination_leverage": 0,
+      "duplicate_work": 1.5,
+      "merge_cost": 0.0
+    },
+    "measurement_gaps": [
+      "tests: worked without commit \u2014 waste split 50/50 (estimate)"
+    ]
+  },
+  "radar": {
+    "trial_id": "trial-002-radar",
+    "group": "radar",
+    "arm_wall_minutes": 4.4,
+    "agent_minutes": {
+      "total": 13.11,
+      "productive": 10.92,
+      "wasted": 2.19,
+      "waste_rate": 0.167,
+      "wasted_breakdown": {
+        "abandoned_commits": 0.0,
+        "duplicate_investigations": 2.19,
+        "conflicting_work": 0.0,
+        "merge_repair": 0.0
+      },
+      "method": "parallel_arm_wall",
+      "gaps": [],
+      "note": "Parallel harness: each agent assigned arm wall duration. Duplicate/conflict waste uses conservative estimates when timing unavailable."
+    },
+    "duplicate_investigations": {
+      "duplicate_investigations": [
+        {
+          "topic": "visibility-polling",
+          "agents": [
+            "audit",
+            "tests"
+          ],
+          "severity": "low",
+          "evidence": [
+            "tests: The HEAD suite on `trial/r002-tests` had **2 real failures** (not the 3 the main-worktree agents reported \u2014 their not...",
+            "audit: Worktree cleanup done: detached HEAD had 4 orphaned commits (attention-slot arbiter) after fix/attention-slot-arbiter..."
+          ]
+        },
+        {
+          "topic": "weekly-digest",
+          "agents": [
+            "audit",
+            "tests"
+          ],
+          "severity": "medium",
+          "evidence": [
+            "tests: 2. **`weekly-digest/route.test.ts:56`** \u2014 TS2532 (`mock.calls[0]` possibly undefined under `noUncheckedIndexedAccess`...",
+            "audit: Worktree cleanup done: detached HEAD had 4 orphaned commits (attention-slot arbiter) after fix/attention-slot-arbiter..."
+          ]
+        }
+      ],
+      "gaps": []
+    },
+    "coordination_leverage": {
+      "coordination_leverage": {
+        "compounding_events": 5,
+        "handoffs": 5,
+        "complementary_changes": 0,
+        "separation_events": 5,
+        "avoidance_events": 5
+      },
+      "compounding_details": [
+        {
+          "agent": "tests",
+          "signal": "their notes",
+          "excerpt": "2-tests` had **2 real failures** (not the 3 the main-worktree agents reported \u2014 their notes reference `use-visibility-polling`, a file that **does not exist on"
+        },
+        {
+          "agent": "tests",
+          "signal": "radar",
+          "excerpt": "rk (agent-ad69/f436 architecture scope) - Left the untracked `CLAUDE.md` alone (radar contract file, not mine)  Committed as `fde143c`. Working tree clean, mark"
+        },
+        {
+          "agent": "tests",
+          "signal": "radar",
+          "excerpt": "act file, not mine)  Committed as `fde143c`. Working tree clean, marked done on radar."
+        },
+        {
+          "agent": "audit",
+          "signal": "already owned",
+          "excerpt": "51/58f5), UX/match-explanation (agent-fad5/016a), analytics dead-event cleanup (already owned on main). Radar note posted; card marked done."
+        },
+        {
+          "agent": "audit",
+          "signal": "Radar",
+          "excerpt": "nation (agent-fad5/016a), analytics dead-event cleanup (already owned on main). Radar note posted; card marked done."
+        }
+      ],
+      "avoidance_details": [
+        {
+          "agent": "feature",
+          "signal": "did NOT touch",
+          "excerpt": "just mirrors that state to assistive tech and names the target role.  ## What I did NOT touch - Match-scoring logic, `whySignals`/`collapsedSignal`/`fallbackHig"
+        },
+        {
+          "agent": "tests",
+          "signal": "ignored them",
+          "excerpt": "e `use-visibility-polling`, a file that **does not exist on this branch**, so I ignored them and reproduced from scratch):  1. **`analytics-contract.test.ts`**"
+        },
+        {
+          "agent": "tests",
+          "signal": "did NOT touch",
+          "excerpt": "** / 7 skipped (was 754/1 fail) - `tsc --noEmit`: **clean** (exit 0)  ## What I did NOT touch - No product UX, no `results/`, no `attention-slot` (agent-016a's"
+        },
+        {
+          "agent": "audit",
+          "signal": "avoid",
+          "excerpt": "`timingSafeEqual` bearer-token check + admin session, returns 404 (not 401) to avoid leaking route existence. Solid. - `internal-proxy.ts` helper \u2014 timeout/ret"
+        },
+        {
+          "agent": "audit",
+          "signal": "Did NOT touch",
+          "excerpt": "in the main worktree). My finding is on *committed* routes and is distinct.  **Did NOT touch:** any files (read-only). Deferred: test-suite repair (agent-4c51/"
+        }
+      ],
+      "handoff_details": [
+        {
+          "agent": "tests",
+          "signal": "their notes",
+          "excerpt": "2-tests` had **2 real failures** (not the 3 the main-worktree agents reported \u2014 their notes reference `use-visibility-polling`, a file that **does not exist on"
+        },
+        {
+          "agent": "tests",
+          "signal": "radar",
+          "excerpt": "rk (agent-ad69/f436 architecture scope) - Left the untracked `CLAUDE.md` alone (radar contract file, not mine)  Committed as `fde143c`. Working tree clean, mark"
+        },
+        {
+          "agent": "tests",
+          "signal": "radar",
+          "excerpt": "act file, not mine)  Committed as `fde143c`. Working tree clean, marked done on radar."
+        },
+        {
+          "agent": "audit",
+          "signal": "already owned",
+          "excerpt": "51/58f5), UX/match-explanation (agent-fad5/016a), analytics dead-event cleanup (already owned on main). Radar note posted; card marked done."
+        },
+        {
+          "agent": "audit",
+          "signal": "Radar",
+          "excerpt": "nation (agent-fad5/016a), analytics dead-event cleanup (already owned on main). Radar note posted; card marked done."
+        }
+      ],
+      "complementary_details": [],
+      "gaps": []
+    },
+    "territory_spread": {
+      "unique_areas": [
+        "analytics",
+        "backend-api",
+        "homepage-conversion",
+        "performance",
+        "pricing",
+        "state-attention",
+        "test-infrastructure"
+      ],
+      "unique_area_count": 7,
+      "agents": 3,
+      "territory_spread": 2.333,
+      "agent_areas": {
+        "feature": [
+          "analytics",
+          "homepage-conversion",
+          "state-attention",
+          "test-infrastructure"
+        ],
+        "tests": [
+          "analytics",
+          "backend-api",
+          "performance",
+          "state-attention",
+          "test-infrastructure"
+        ],
+        "audit": [
+          "analytics",
+          "backend-api",
+          "pricing"
+        ]
+      },
+      "gaps": [],
+      "diagnostic_only": true
+    },
+    "organizational_waste": {
+      "duplicate_investigations": 2,
+      "abandoned_commits": 0,
+      "merge_conflicts": 0,
+      "overlap_files": 0,
+      "waste_rate": 0.167,
+      "wasted_minutes": 2.19
+    },
+    "cognitive_economics": {
+      "cognitive_duplication_rate": 0.667,
+      "novel_contribution_rate": 0.667,
+      "investigation_count": 3,
+      "duplicate_topic_count": 2,
+      "compounding_events": 5,
+      "separation_events": 5,
+      "output_per_agent_hour": 13.73,
+      "waste_rate": 0.167,
+      "note": "Headline: same agents + same time \u2192 less rediscovery, more compounding. Territory overlap is not penalized; repeated discoveries are."
+    },
+    "friction": {
+      "files_changed": 3,
+      "overlap_files": 0,
+      "collision_rate": 0.0,
+      "merge_conflicts": 0,
+      "proposed_commits": 3,
+      "merged_commits": 3
+    },
+    "legacy_efficiency": 1.0,
+    "coordination_score": 0.553,
+    "coordination_score_components": {
+      "useful_outputs": 3.75,
+      "coordination_leverage": 5,
+      "duplicate_work": 1.5,
+      "merge_cost": 0.0
+    },
+    "measurement_gaps": []
+  },
+  "comparison": {
+    "coordination_score_lift_pct": 4.827,
+    "legacy_efficiency_lift_pct": 1.0,
+    "waste_rate_delta": -0.166,
+    "territory_spread_delta": 0.333,
+    "duplicate_investigations_delta": 0,
+    "cognitive_duplication_rate_delta": 0.0,
+    "compounding_events_delta": 5
+  },
+  "scorecard": {
+    "headline": {
+      "no_radar_efficiency": 0.5,
+      "radar_efficiency": 1.0,
+      "radar_lift_pct": 1.0,
+      "coordination_score_lift_pct": 4.827
+    }
+  }
+}
