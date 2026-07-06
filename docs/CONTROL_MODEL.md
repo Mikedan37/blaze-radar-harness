@@ -28,20 +28,20 @@ Radar is sensor-only. It does not actuate merges or block files.
 ## Feedback path (ASCII)
 
 ```
-  Agent 1 ----edits----> Codebase + git
-     |                        ^
-     |                        |
-     +--- sync, note ---> Shared board
-     |                        |
-     +--- reads board -------+
-
-  Agent 2 ----edits----> Codebase + git
-     |                        ^
-     +--- sync, note ---> Shared board
-     +--- reads board -------+
+                    Shared board
+                   (tasks + notes)
+                  /      |      \
+         writes  /       |       \  reads
+                /        |        \
+           Agent 1    Agent 2    Agent 3
+                \        |        /
+                 \       |       /
+                  v      v       v
+                    Codebase
+              (each agent edits git)
 ```
 
-Without the board, information stops at each session edge and peers retrace the same region.
+Agents publish what they learned; peers read before starting new work. Without the board, each arrow back to the board is missing and agents retrace the same paths blindly.
 
 ---
 

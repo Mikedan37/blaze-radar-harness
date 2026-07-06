@@ -1,110 +1,99 @@
 # Blaze Radar Harness
 
-**Does a shared awareness board reduce wasted work when many coding agents run in parallel?**
+## In 30 seconds
 
-This repo is an A/B measurement harness. You run the same agent swarm twice (with and without [Blaze Radar](https://github.com/Mikedan37/blaze-radar)), collect artifacts, and score the run. It is a lab instrument, not a leaderboard and not the Radar product itself.
-
----
-
-## What you get
-
-| Piece | What it does |
-|-------|----------------|
-| `harness/run-trial.sh` | Spins up parallel agents in git worktrees (Radar arm vs no-Radar arm) |
-| `harness/collect-trial.sh` | Freezes logs, commits, board notes after a run |
-| `harness/score-trial.sh` | Computes waste rate, duplicate topics, commits, and related metrics |
-| `prompts/` | Frozen prompt packs used in published trials |
-| `protocol/` | Rules so the harness does not cheat (no mid-run orchestration) |
-| `docs/` | Results, charts, and optional theory write-ups |
+1. **Question:** If parallel coding agents share a notes board, do they stop redoing each other's investigations?
+2. **Method:** Run the same swarm twice - once **with** [Blaze Radar](https://github.com/Mikedan37/blaze-radar), once **without** - then score both runs.
+3. **This repo:** Scripts to run that experiment and math to compare the results. Not Radar itself. Not a leaderboard.
 
 ---
 
-## The problem this measures
+## What we saw (Trial 005)
 
-Running several agents on one codebase often wastes effort:
+8 agents on the same codebase, 45 minutes, isolated so neither run could peek at the other's git branches.
 
-- Agent A spends 20 minutes tracing an upload bug.
-- Agent B starts the same trace from scratch because A's notes never left A's session.
-- Both commit partial fixes. A human merges later.
+**Bottom line:** Both runs landed **8 commits**. The Radar run wasted **much less time** on duplicate investigations.
 
-That is duplicate **investigation**, not necessarily a git conflict. Proximity in the repo does not equal collision. What hurts is retracing ground another agent already explored.
+| | No Radar | With Radar |
+|--|----------|------------|
+| Waste rate | 77.5% | 42.5% |
+| Duplicate topics | 7 | 5 |
+| Commits | 8/8 | 8/8 |
 
-**Blaze Radar** gives agents a shared board (tasks, notes, sync). **This harness** asks: when the board is on, do agents waste less time on the same questions while still shipping commits?
+**How to read the charts:** Blue/green = useful agent-minutes. Red/orange = wasted (re-tracing, abandoned paths). You want the red slice to shrink **without** losing commits.
+
+![Trial 005: same total effort, less waste on Radar arm](docs/charts/trial-005-energy-heat.svg)
+
+![Trial 005: duplicate topics and context reuse](docs/charts/trial-005-dashboard.svg)
+
+**Concrete example:** Agent 06 opened the board, saw upload work was already in progress, and switched tasks instead of redoing the same trace ([details](docs/trial-data/trial-005-interpretation.md)).
+
+One trial is a signal, not proof. More repeats live in [docs/EMPIRICAL_RESULTS.md](docs/EMPIRICAL_RESULTS.md).
+
+---
+
+## The problem (why bother)
+
+```
+Without a board:
+  Agent A investigates upload bug for 20 min, writes notes in its own session
+  Agent B starts the same investigation from zero
+  Both commit. A human merges later.
+
+With Radar:
+  Agent A posts "upload: traced to X, fix in progress" on the shared board
+  Agent B reads that and works on something else (or extends A's fix)
+```
+
+That is wasted **investigation**, not necessarily a git merge conflict. This harness measures whether the board actually changes agent behavior.
 
 ---
 
 ## How a trial works
 
 ```
-  Your repo (e.g. SeekerWebsite @ fixed SHA)
+  Your repo (fixed git SHA, same code both times)
            |
            +------------------+------------------+
            |                                     |
-    Radar arm (treatment)              No-Radar arm (control)
-    N agents + shared board            N agents, isolated sessions
-    blaze radar sync / note            no shared state
+    WITH Radar board                   WITHOUT Radar board
+    (agents sync + note)               (agents fully isolated)
            |                                     |
            +------------------+------------------+
                               |
-                    collect-trial.sh
-                    (logs, git, board JSON)
+                     collect logs + commits
                               |
-                    score_trial_v2.py
+                          score both runs
                               |
-              waste rate, duplicate topics,
-              commits, convergence_score, ...
+              compare waste rate, duplicates, commits
 ```
 
-**Important:** The harness sets up worktrees and timers. It does **not** tell agents what others are doing mid-run. In the Radar arm, the board is the only shared feedback. In the control arm, there is none. That keeps the comparison honest. See [protocol/trial-1-protocol.md](protocol/trial-1-protocol.md).
+The harness only sets up worktrees and collects artifacts. It **never** tells agents what teammates are doing mid-run - that would break the test. Rules: [protocol/trial-1-protocol.md](protocol/trial-1-protocol.md).
 
-**Clean A/B:** Use isolated git clones per arm (`--isolated-arms` in `run-trial.sh`) so one arm cannot see the other's branches. Trial 004 failed this check; Trial 005 did not.
-
----
-
-## What the scorer reports (plain language)
-
-| Metric | Meaning |
-|--------|---------|
-| **Waste rate** | Share of agent-minutes that look redundant (re-tracing, abandoned paths) |
-| **Duplicate topics** | How many investigation themes show up in more than one agent |
-| **Commits** | Did both arms still ship? (We want less waste **without** killing throughput) |
-| **Prior context use** | Radar arm only: did agents reference board notes or peer work? |
-| **Convergence score** | Useful output minus duplicate cost, divided by total agent-minutes |
-
-Full field list and formulas: [docs/CONTROL_MODEL.md](docs/CONTROL_MODEL.md).  
-Frozen trial numbers and charts: [docs/EMPIRICAL_RESULTS.md](docs/EMPIRICAL_RESULTS.md).
+Use `--isolated-arms` so each run gets its own git clone. Trial 004 skipped that and the comparison was invalid. Trial 005 did it correctly.
 
 ---
 
-## Best result so far (Trial 005)
+## Two repos, two jobs
 
-8 agents, isolated arms, SeekerWebsite @ `1d6695f`. Same commit count (8/8). Radar arm wasted less time on duplicate investigations.
+| | [blaze-radar](https://github.com/Mikedan37/blaze-radar) | blaze-radar-harness (here) |
+|--|--|--|
+| **Job** | Shared board agents use while coding | Lab setup that tests if the board helps |
+| **Analogy** | The whiteboard in the room | The stopwatch and checklist comparing two rooms |
 
-| Metric | No Radar | With Radar |
-|--------|----------|------------|
-| Waste rate | 77.5% | 42.5% |
-| Duplicate topics | 7 | 5 |
-| Commits | 8/8 | 8/8 |
-
-![Trial 005 energy vs heat](docs/charts/trial-005-energy-heat.svg)
-
-![Trial 005 dashboard](docs/charts/trial-005-dashboard.svg)
-
-Example behavior ([full interpretation](docs/trial-data/trial-005-interpretation.md)): one agent read the board, saw upload work was already covered, and pivoted instead of redoing it.
-
-This is one clean trial, not a final proof. More repeats (006+) are for variance.
+Radar does not assign tasks, block files, or merge branches. It only publishes what agents already did. This repo measures whether that publication reduces duplicate work.
 
 ---
 
-## Quick start
+## Run it yourself
 
-**Prerequisites:** [blaze-radar](https://github.com/Mikedan37/blaze-radar) demo CLI + daemon, Claude Code (`claude`), Python 3, a target git repo.
+**Need:** blaze-radar demo daemon, Claude Code (`claude`), Python 3, any git repo.
 
 ```bash
 git clone https://github.com/Mikedan37/blaze-radar-harness.git
 cd blaze-radar-harness
 
-# Build Radar demo (once)
+# Radar demo (once)
 git clone https://github.com/Mikedan37/blaze-radar.git ../blaze-radar
 cd ../blaze-radar && swift build -c release
 export PATH="$PWD/.build/release:$PATH"
@@ -112,19 +101,12 @@ blaze-radar-demo-daemon &
 
 cd ../blaze-radar-harness
 
-# Treatment arm
-./harness/run-trial.sh --mode radar --trial mytrial-radar --repo ~/YourRepo
-
-# Control arm
+./harness/run-trial.sh --mode radar    --trial mytrial-radar    --repo ~/YourRepo
 ./harness/run-trial.sh --mode no-radar --trial mytrial-no-radar --repo ~/YourRepo
-
-# Score (pair by trial id prefix)
 ./harness/score-trial.sh --trial mytrial --report ~/radar-harness/mytrial/trial-report.md
 ```
 
-Defaults: worktrees under `~/radar-trials/`, artifacts under `~/radar-harness/`, CLI name `blaze-radar-demo`.
-
-Plot frozen data without running agents:
+Replay charts from frozen data (no agents needed):
 
 ```bash
 python3 lib/plot_trial.py docs/trial-data/trial-005-score-v2.json
@@ -133,60 +115,17 @@ python3 lib/generate_trial_charts.py docs/trial-data/trial-*-score-v2.json
 
 ---
 
-## How this repo relates to Blaze Radar
+## What's in the box
 
-```
-blaze-radar          shared board + daemon (the sensor)
-blaze-radar-harness  run trials and score outcomes (the oscilloscope)
-```
+| Folder / script | Purpose |
+|-----------------|---------|
+| `harness/run-trial.sh` | Start parallel agents (Radar or no-Radar mode) |
+| `harness/collect-trial.sh` | Snapshot logs and git state after a run |
+| `harness/score-trial.sh` | Output metrics JSON + report |
+| `prompts/` | Agent instructions used in published trials |
+| `docs/` | Results, charts, optional theory |
 
-| | blaze-radar | blaze-radar-harness |
-|--|-------------|---------------------|
-| Role | Product: agents publish and read shared state | Experiment kit: A/B runs and metrics |
-| You run it when | Agents need awareness during real work | You want evidence about whether awareness helps |
-
-Radar does not assign tasks, block edits, or merge branches. It only surfaces state. Merging compatible agent branches is still a separate (human) step. The harness measures the feedback loop, not merge automation.
-
-Optional control-theory framing (energy, heat, oscillation as analogies): [docs/CONTROL_MODEL.md](docs/CONTROL_MODEL.md).
-
----
-
-## Repo layout
-
-```
-blaze-radar-harness/
-├── harness/          run, collect, score scripts
-├── lib/              score_trial_v2.py, chart generators
-├── prompts/          seeker-overlap-v1, seeker-swarm-v1
-├── protocol/         trial contract
-└── docs/
-    ├── EMPIRICAL_RESULTS.md
-    ├── CONTROL_MODEL.md
-    ├── trial-data/   frozen JSON + interpretations
-    └── charts/       SVG plots for README
-```
-
----
-
-## What we claim vs what we measure
-
-| Statement | Status |
-|-----------|--------|
-| Harness runs isolated A/B arms | Yes, when configured with isolated clones |
-| Radar writes tasks and notes to a shared board | Yes (blaze-radar behavior) |
-| Duplicate detection | Heuristic from logs and board text |
-| "Radar caused X" | Needs clean trials and repeats; scorer flags contamination |
-| Measured physics damping ratio | No. Heat/energy language is analogy only |
-
----
-
-## Related
-
-| Repo | Role |
-|------|------|
-| [blaze-radar](https://github.com/Mikedan37/blaze-radar) | Shared awareness layer (public) |
-| **blaze-radar-harness** | Measurement framework (this repo) |
-| ProjectBlaze / AgentCLI | Private production host (optional) |
+**Metrics the scorer prints:** waste rate, duplicate topics, commit counts, and (Radar arm only) whether agents cited board notes. Formulas: [docs/CONTROL_MODEL.md](docs/CONTROL_MODEL.md).
 
 ---
 
