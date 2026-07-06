@@ -29,11 +29,11 @@ We do not expect Radar to assign work, block edits, or merge branches. It is a *
 | Verdict | Detail |
 |---------|--------|
 | **Mechanism** | **Supported.** Agents read the board and change course (Trial 004 + qualitative traces in 005). |
-| **Performance** | **Promising, one clean datapoint.** Trial 005 (isolated A/B): same 8/8 commits, waste rate 77.5% → 42.5%, duplicate topics 7 → 5. |
+| **Performance** | **Promising, one clean datapoint.** Trial 005 (isolated A/B): same 8/8 commits, waste rate 77.5% → 42.5%, duplicate topics 7 → 5, **wall time 19.7 min → 15.2 min** (4.5 min faster). |
 | **Confidence** | **Early.** One clean trial, ~45 min, one codebase. Batch repeats (006+) needed before we call it proven. |
 | **Not claimed** | Solved coordination, automatic merging, or a fitted "damping ratio." |
 
-**Plain read:** Radar did not slow the swarm down. It cut redundant investigation. That is exactly what we predicted. We are not declaring victory until repeats show the same pattern.
+**Plain read:** Radar did not slow the swarm down. It cut redundant investigation **and the run finished faster** with the same commit count. That matches what we predicted (less heat, same output). We are not declaring victory until repeats show the same pattern; wall-time gain is n=1 and could be noise.
 
 Full trial write-ups: [docs/EMPIRICAL_RESULTS.md](docs/EMPIRICAL_RESULTS.md).
 
@@ -43,13 +43,14 @@ Full trial write-ups: [docs/EMPIRICAL_RESULTS.md](docs/EMPIRICAL_RESULTS.md).
 
 8 agents on the same codebase, 45 minutes, isolated so neither run could peek at the other's git branches.
 
-**Bottom line:** Both runs landed **8 commits**. The Radar run wasted **much less time** on duplicate investigations.
+**Bottom line:** Both runs landed **8 commits**. The Radar run wasted **much less time** on duplicate investigations and **finished 4.5 minutes sooner** (15.2 min vs 19.7 min wall clock).
 
 | | No Radar | With Radar |
 |--|----------|------------|
 | Waste rate | 77.5% | 42.5% |
 | Duplicate topics | 7 | 5 |
 | Commits | 8/8 | 8/8 |
+| Wall time | 19.7 min | 15.2 min |
 
 **How to read the charts:** Blue/green = useful agent-minutes. Red/orange = wasted (re-tracing, abandoned paths). You want the red slice to shrink **without** losing commits.
 
