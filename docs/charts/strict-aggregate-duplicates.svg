@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="340" viewBox="0 0 760 340">
+<style>text{font-family:ui-monospace,Menlo,monospace;font-size:12px;fill:#e6edf3}.title{font-size:14px;font-weight:600}.sub{fill:#8b949e;font-size:11px}.bar-nr{fill:#f85149}.bar-rd{fill:#3fb950}.grid{stroke:#30363d;stroke-width:1}.axis{fill:#8b949e}</style>
+<rect width="760" height="340" fill="#0d1117"/>
+<text x="24" y="28" class="title">Duplicate investigations (strict aggregate, n=3)</text>
+<text x="24" y="46" class="sub">~59% mean reduction · 005 3→1 · 006 2→1 · 007 5→2 · throughput 8/8 all runs</text>
+<rect x="24" y="56" width="12" height="12" class="bar-nr"/>
+<text x="42" y="66" class="axis">No feedback</text>
+<rect x="140" y="56" width="12" height="12" class="bar-rd"/>
+<text x="158" y="66" class="axis">+ Radar</text>
+<rect x="141.3" y="100.0" width="28" height="200.0" class="bar-nr"/>
+<text x="155.3" y="96.0" text-anchor="middle" class="axis">3.00</text>
+<rect x="177.3" y="233.3" width="28" height="66.7" class="bar-rd"/>
+<text x="191.3" y="229.33333333333334" text-anchor="middle" class="axis">1.00</text>
+<text x="173.3" y="318" text-anchor="middle" class="axis">005</text>
+<rect x="368.0" y="100.0" width="28" height="200.0" class="bar-nr"/>
+<text x="382.0" y="96.0" text-anchor="middle" class="axis">2.00</text>
+<rect x="404.0" y="200.0" width="28" height="100.0" class="bar-rd"/>
+<text x="418.0" y="196.0" text-anchor="middle" class="axis">1.00</text>
+<text x="400.0" y="318" text-anchor="middle" class="axis">006</text>
+<rect x="594.7" y="100.0" width="28" height="200.0" class="bar-nr"/>
+<text x="608.7" y="96.0" text-anchor="middle" class="axis">5.00</text>
+<rect x="630.7" y="220.0" width="28" height="80.0" class="bar-rd"/>
+<text x="644.7" y="216.0" text-anchor="middle" class="axis">2.00</text>
+<text x="626.7" y="318" text-anchor="middle" class="axis">007</text>
+<line x1="50" y1="300" x2="740" y2="300" class="grid"/>
+</svg>

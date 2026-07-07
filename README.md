@@ -4,7 +4,31 @@
 
 1. **Question:** If parallel coding agents share a notes board, do they stop redoing each other's investigations?
 2. **Method:** Run the same swarm twice - once **with** [Blaze Radar](https://github.com/Mikedan37/blaze-radar), once **without** - then score both runs.
-3. **This repo:** Scripts to run that experiment and math to compare the results. Not Radar itself. Not a leaderboard.
+3. **Result (n=3 clean trials):** **~59% fewer duplicate investigations**, **8/8 commits every run**. Radar prevents repeated intelligence spend, not assignment.
+4. **This repo:** Scripts to run that experiment and math to compare the results. Not Radar itself. Not a leaderboard.
+
+---
+
+## Headline result (strict aggregate, n = 3)
+
+> **Blaze Radar reduced duplicate AI investigation by ~59% across three 8-agent coding trials while maintaining throughput.**
+
+| Trial | Duplicate topics (no-radar → radar) | Commits (both arms) |
+|-------|-------------------------------------|---------------------|
+| 005 | 3 → 1 | 8 / 8 |
+| 006 | 2 → 1 | 8 / 8 |
+| 007 | 5 → 2 | 8 / 8 |
+| **Mean** | **~59% reduction** | **held** |
+
+**Lead with duplicates, not speed.** Wall clock improved in all three runs (−4.5, −4.1, −1.0 min; mean **−3.2 ± 1.9**). Good direction, noisy.
+
+![Duplicate investigations: strict aggregate trials 005-007](docs/charts/strict-aggregate-duplicates.svg)
+
+![Cognitive waste rate: strict aggregate trials 005-007](docs/charts/strict-aggregate-cognitive-waste.svg)
+
+![Arm wall time (secondary)](docs/charts/strict-aggregate-wall-time.svg)
+
+Full trial log: [docs/EMPIRICAL_RESULTS.md](docs/EMPIRICAL_RESULTS.md).
 
 ---
 
@@ -12,11 +36,11 @@
 
 **If agents can read a shared board** (tasks, notes, what was tried and abandoned), **they will waste less time re-investigating the same problems** while **still shipping at the same rate**.
 
-We do not expect Radar to assign work, block edits, or merge branches. It is a **sensor**: publish state, let agents adjust their own trajectories. Success looks like:
+This is **organizational memory**, not coordination. Radar does not assign work, block edits, or merge branches. It publishes discovered facts so agents stop paying the same investigation cost twice.
 
 | Good outcome | Bad outcome |
 |--------------|-------------|
-| Same commits, lower waste rate | Fewer commits (agents scared off) |
+| Same commits, fewer duplicate investigations | Fewer commits (agents scared off) |
 | Agents cite board notes and pivot | Agents ignore the board |
 | Duplicate topics drop | Throughput collapses to hit zero duplicates |
 
@@ -24,41 +48,33 @@ We do not expect Radar to assign work, block edits, or merge branches. It is a *
 
 ## Conclusion so far
 
-**We think the hypothesis is holding, with caveats.**
-
 | Verdict | Detail |
 |---------|--------|
-| **Mechanism** | **Supported.** Agents read the board and change course (Trial 004 + qualitative traces in 005). |
-| **Performance** | **Promising, one clean datapoint.** Trial 005 (isolated A/B): same 8/8 commits, waste rate 77.5% → 42.5%, duplicate topics 7 → 5, **wall time 19.7 min → 15.2 min** (4.5 min faster). |
-| **Confidence** | **Early.** One clean trial, ~45 min, one codebase. Batch repeats (006+) needed before we call it proven. |
-| **Not claimed** | Solved coordination, automatic merging, or a fitted "damping ratio." |
+| **Headline** | **Supported (n=3).** Duplicate investigations down ~59% across isolated A/B trials 005-007. Throughput 8/8 every run. |
+| **Mechanism** | **Supported.** Agents read the board and change course (qualitative traces in 005, 007). |
+| **Primitive vs UI** | **007 is the key point.** Misleading board v1.0 UI, still dups 5→2 and context 11→13. Data layer works before presentation is good. |
+| **Speed** | **Secondary.** All three runs faster with Radar; high variance. Do not lead the pitch with wall clock. |
+| **Not claimed** | Solved coordination, automatic merging, or proof at 16+ agents. Presentation v1.1 effect (trial 008) still open. |
 
-**Plain read:** Radar did not slow the swarm down. It cut redundant investigation **and the run finished faster** with the same commit count. That matches what we predicted (less heat, same output). We are not declaring victory until repeats show the same pattern; wall-time gain is n=1 and could be noise.
-
-Full trial write-ups: [docs/EMPIRICAL_RESULTS.md](docs/EMPIRICAL_RESULTS.md).
+**Plain read:** Eight smart agents without Radar build eight private realities and overlap on discovery. With Radar they share discovered facts and compound progress. Statistics insists on more than one datapoint; we now have three that point the same way.
 
 ---
 
-## Evidence (Trial 005)
+## Evidence (Trial 007 example)
 
-8 agents on the same codebase, 45 minutes, isolated so neither run could peek at the other's git branches.
-
-**Bottom line:** Both runs landed **8 commits**. The Radar run wasted **much less time** on duplicate investigations and **finished 4.5 minutes sooner** (15.2 min vs 19.7 min wall clock).
+8 agents, 45 minutes, isolated git clone per arm. Board v1.0 had misleading `activity: editing` labels and opaque agent IDs. **Still:**
 
 | | No Radar | With Radar |
 |--|----------|------------|
-| Waste rate | 77.5% | 42.5% |
-| Duplicate topics | 7 | 5 |
+| Duplicate topics | 5 | 2 |
+| Cognitive waste rate | 9.4% | 6.3% |
+| Same-arm prior context | 11 | 13 |
 | Commits | 8/8 | 8/8 |
-| Wall time | 19.7 min | 15.2 min |
+| Wall time | 19.4 min | 18.4 min |
 
-**How to read the charts:** Blue/green = useful agent-minutes. Red/orange = wasted (re-tracing, abandoned paths). You want the red slice to shrink **without** losing commits.
+![Trial 007 energy partition](docs/charts/trial-007-energy-heat.svg)
 
-![Trial 005: same total effort, less waste on Radar arm](docs/charts/trial-005-energy-heat.svg)
-
-![Trial 005: duplicate topics and context reuse](docs/charts/trial-005-dashboard.svg)
-
-**Mechanism example (why we believe the numbers):** Agent 06 read the board, saw two peers on `UploadPageClient` plus a "do not re-add desktop tile" note, abandoned its duplicate upload path, and pivoted to signup work. Agent 07 deferred upload after seeing agent 05's claim. Discover → read board → pivot, not blind re-trace ([full trace](docs/trial-data/trial-005-interpretation.md)).
+**Mechanism example (Trial 005):** Agent 06 read the board, saw two peers on `UploadPageClient` plus a "do not re-add desktop tile" note, abandoned its duplicate upload path, and pivoted to signup work ([full trace](docs/trial-data/trial-005-interpretation.md)).
 
 ---
 
@@ -95,12 +111,12 @@ That is wasted **investigation**, not necessarily a git merge conflict. This har
                               |
                           score both runs
                               |
-              compare waste rate, duplicates, commits
+              compare duplicates, waste rate, commits
 ```
 
 The harness only sets up worktrees and collects artifacts. It **never** tells agents what teammates are doing mid-run - that would break the test. Rules: [protocol/trial-1-protocol.md](protocol/trial-1-protocol.md).
 
-Use `--isolated-arms` so each run gets its own git clone. Trial 004 skipped that and the comparison was invalid. Trial 005 did it correctly.
+Use `--isolated-arms` so each run gets its own git clone. Trial 004 skipped that and the comparison was invalid. Trials 005-007 did it correctly.
 
 ---
 
@@ -139,8 +155,8 @@ cd ../blaze-radar-harness
 Replay charts from frozen data (no agents needed):
 
 ```bash
-python3 lib/plot_trial.py docs/trial-data/trial-005-score-v2.json
-python3 lib/generate_trial_charts.py docs/trial-data/trial-*-score-v2.json
+python3 lib/generate_trial_charts.py docs/trial-data/trial-005-score-v2.json \
+  docs/trial-data/trial-006-score-v2.json docs/trial-data/trial-007-score-v2.json
 ```
 
 ---
@@ -155,7 +171,7 @@ python3 lib/generate_trial_charts.py docs/trial-data/trial-*-score-v2.json
 | `prompts/` | Agent instructions used in published trials |
 | `docs/` | Results, charts, optional theory |
 
-**Metrics the scorer prints:** waste rate, duplicate topics, commit counts, and (Radar arm only) whether agents cited board notes. Formulas: [docs/CONTROL_MODEL.md](docs/CONTROL_MODEL.md).
+**Headline metrics:** duplicate investigation topics, cognitive waste rate, commit counts. Secondary: wall time, convergence pressure. Formulas: [docs/CONTROL_MODEL.md](docs/CONTROL_MODEL.md).
 
 ---
 

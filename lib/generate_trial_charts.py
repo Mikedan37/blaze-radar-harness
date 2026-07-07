@@ -140,6 +140,42 @@ def stacked_energy(title: str, subtitle: str, nr: dict, rd: dict, w=520, h=280) 
     return "\n".join(lines)
 
 
+def strict_arm_metrics(report: dict[str, Any]) -> dict[str, dict[str, float | None]]:
+    """Headline metrics from rescored v2 JSON (strict aggregate trials)."""
+    out: dict[str, dict[str, float | None]] = {}
+    for key, label in ("no_radar", "No feedback"), ("radar", "+ Radar"):
+        arm = report.get(key, {})
+        ce = arm.get("cognitive_economics", {})
+        m = arm.get("agent_minutes", {})
+        cw = m.get("cognitive_waste", {})
+        out[label] = {
+            "dup_topics": num(ce.get("duplicate_topic_count")),
+            "cog_waste_rate": num(cw.get("rate")),
+            "wall_min": num(arm.get("arm_wall_minutes")),
+            "prior_context": num(ce.get("prior_context_same_arm")),
+            "commits": num(arm.get("friction", {}).get("merged_commits")),
+        }
+    return out
+
+
+def strict_aggregate_chart(
+    reports: list[tuple[str, dict[str, Any]]],
+    field: str,
+    title: str,
+    subtitle: str,
+    *,
+    w: int = 760,
+    h: int = 340,
+) -> str:
+    metrics: list[tuple[str, str, float]] = []
+    for tid, rep in reports:
+        m = strict_arm_metrics(rep)
+        label = tid.replace("trial-", "")
+        metrics.append((label, "No feedback", m["No feedback"][field] or 0))
+        metrics.append((label, "+ Radar", m["+ Radar"][field] or 0))
+    return grouped_bars(title, subtitle, metrics, w=w, h=h)
+
+
 def trial005_dashboard(report: dict[str, Any]) -> str:
     m = arm_metrics(report)
     nr, rd = m["No feedback"], m["+ Radar"]
@@ -154,12 +190,18 @@ def trial005_dashboard(report: dict[str, Any]) -> str:
         ("Prior context", "+ Radar", (rd["prior_context"] or 0) / 8),
     ]
     return grouped_bars(
-        "Trial 005 — isolated 8-agent swarm (SeekerWebsite @ 1d6695f)",
+        "Trial 005: isolated 8-agent swarm (SeekerWebsite @ 1d6695f)",
         "Same commits (8/8) · per-arm git clone · seeker-swarm-v1 · 45m cap",
         metrics,
         w=760,
         h=340,
     )
+
+
+def strict_trials(reports: list[tuple[str, dict]]) -> list[tuple[str, dict]]:
+    order = ["trial-005", "trial-006", "trial-007"]
+    by_id = {tid: rep for tid, rep in reports}
+    return [(tid, by_id[tid]) for tid in order if tid in by_id]
 
 
 def multi_trial_waste_delta(reports: list[tuple[str, dict]]) -> str:
@@ -172,10 +214,10 @@ def multi_trial_waste_delta(reports: list[tuple[str, dict]]) -> str:
         metrics.append((label, "No feedback", nr_wr))
         metrics.append((label, "+ Radar", rd_wr))
     return grouped_bars(
-        "Waste rate by trial (lower is better)",
-        "T004 contaminated (sequential shared repo) · T005 clean isolation · T002 short overlap pack",
+        "Cognitive waste rate by trial (lower is better)",
+        "Strict aggregate trials 005-007 · isolated arms · duplicates + abandoned paths only",
         metrics,
-        w=640,
+        w=760,
         h=300,
     )
 
@@ -213,6 +255,41 @@ def generate_all(score_paths: list[Path], out_dir: Path) -> list[Path]:
         p = out_dir / "trials-waste-rate.svg"
         p.write_text(multi_trial_waste_delta(reports))
         written.append(p)
+
+    strict = strict_trials(reports)
+    if len(strict) >= 2:
+        dup = out_dir / "strict-aggregate-duplicates.svg"
+        dup.write_text(
+            strict_aggregate_chart(
+                strict,
+                "dup_topics",
+                "Duplicate investigations (strict aggregate, n=3)",
+                "~59% mean reduction · 005 3→1 · 006 2→1 · 007 5→2 · throughput 8/8 all runs",
+            )
+        )
+        written.append(dup)
+
+        cog = out_dir / "strict-aggregate-cognitive-waste.svg"
+        cog.write_text(
+            strict_aggregate_chart(
+                strict,
+                "cog_waste_rate",
+                "Cognitive waste rate (strict aggregate, n=3)",
+                "Headline scorer metric · prevents repeated intelligence spend · lower is better",
+            )
+        )
+        written.append(cog)
+
+        wall = out_dir / "strict-aggregate-wall-time.svg"
+        wall.write_text(
+            strict_aggregate_chart(
+                strict,
+                "wall_min",
+                "Arm wall time in minutes (secondary, noisy)",
+                "Mean delta −3.2 ± 1.9 min · same commit count all runs · do not lead with speed",
+            )
+        )
+        written.append(wall)
 
     return written
 
